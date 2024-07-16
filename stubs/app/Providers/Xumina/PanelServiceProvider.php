@@ -3,7 +3,7 @@
 namespace App\Providers\Xumina;
 
 use Hasnayeen\Xumina\Layouts\DefaultLayout;
-use Hasnayeen\Xumina\Xumina;
+use Hasnayeen\Xumina\Panel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
