@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/xumina/components/ui/dropdown-menu';
-import { useTheme } from '@/theme-provider';
+import { useTheme } from '@/xumina/components/theme-provider';
 
 export const ThemeSwitcher: React.FC = () => {
   const { setTheme } = useTheme();
