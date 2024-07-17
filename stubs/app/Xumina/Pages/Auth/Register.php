@@ -16,6 +16,7 @@ class Register extends AuthPage
     {
         return [
             Form::make('register')
+                ->columns(1)
                 ->fields([
                     Input::make('name'),
                     Input::make('email')
@@ -27,6 +28,7 @@ class Register extends AuthPage
                 ])
                 ->submitTo('xumina.{{ $panelKebab }}.auth.register.store')
                 ->submitButtonLabel(__('Register'))
+                ->cancelButton(false)
         ];
     }
 

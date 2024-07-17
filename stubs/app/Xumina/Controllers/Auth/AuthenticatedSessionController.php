@@ -2,7 +2,6 @@
 
 namespace App\Xumina\{{ $panel }}\Controllers\Auth;
 
-use App\Xumina\{{ $panel }}\Controllers\Controller;
 use App\Xumina\{{ $panel }}\Requests\Auth\LoginRequest;
 use App\Xumina\{{ $panel }}\Pages\Auth\Login;
 use Illuminate\Http\RedirectResponse;

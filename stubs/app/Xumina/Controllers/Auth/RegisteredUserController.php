@@ -2,9 +2,8 @@
 
 namespace App\Xumina\{{ $panel }}\Controllers\Auth;
 
-use App\Xumina\{{ $panel }}\Controllers\Controller;
 use App\Models\User;
-use App\Xumina\App\Pages\Auth\Register;
+use App\Xumina\{{ $panel }}\Pages\Auth\Register;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

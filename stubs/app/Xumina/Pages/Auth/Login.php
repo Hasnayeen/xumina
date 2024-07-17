@@ -19,6 +19,7 @@ class Login extends AuthPage
             Section::make('login')
                 ->items([
                     Form::make('login')
+                        ->columns(1)
                         ->fields([
                             Input::make('email')
                                 ->type('email'),
@@ -27,6 +28,7 @@ class Login extends AuthPage
                         ])
                         ->submitTo('xumina.{{ $panelKebab }}.auth.login.store')
                         ->submitButtonLabel(__('Login'))
+                        ->cancelButton(false)
                 ])
         ];
     }

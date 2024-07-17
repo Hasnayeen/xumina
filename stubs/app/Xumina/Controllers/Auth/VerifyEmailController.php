@@ -2,7 +2,6 @@
 
 namespace App\Xumina\{{ $panel }}\Controllers\Auth;
 
-use App\Xumina\{{ $panel }}\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;

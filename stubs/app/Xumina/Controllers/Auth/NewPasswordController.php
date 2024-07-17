@@ -2,7 +2,6 @@
 
 namespace App\Xumina\{{ $panel }}\Controllers\Auth;
 
-use App\Xumina\{{ $panel }}\Controllers\Controller;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
