@@ -16,7 +16,6 @@ export function useSetQueryData () {
 
   const auth = props.auth as { user: User };
   queryClient.setQueryData(['auth', 'user'], auth.user);
-  // queryClient.setQueryData(['auth', 'user'], props.auth.user as PageProps['auth']['user'])
 
   useEffect(() => {
     Object.entries(queryMapping).forEach(([queryKey, propKey]) => {
