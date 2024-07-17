@@ -77,7 +77,7 @@ class XuminaServiceProvider extends PackageServiceProvider
     {
         if (class_exists(AboutCommand::class) && class_exists(InstalledVersions::class)) {
             AboutCommand::add('Xumina', [
-                'Version' => InstalledVersions::getPrettyVersion('hasnayeen/themes'),
+                'Version' => InstalledVersions::getPrettyVersion('hasnayeen/xumina'),
             ]);
         }
     }
