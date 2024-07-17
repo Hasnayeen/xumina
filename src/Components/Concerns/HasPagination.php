@@ -19,8 +19,8 @@ trait HasPagination
 
     public function paginated(bool|array $paginated): static
     {
-        if (is_array(paginated)) {
-            $this->perPageOptions = $paginated;
+        if (is_array($paginated)) {
+            $this->pageSizeOptions = $paginated;
         } else {
             $this->paginated = $paginated;
         }

@@ -130,10 +130,10 @@ class InstallCommand extends Command implements PromptsForMissingInput
         ]);
 
         (new Filesystem)->ensureDirectoryExists(app_path('Http/Middleware'));
-        copy(__DIR__.'/../../stubs/app/Http/Middleware/HandleInertiaRequests.php', app_path('Http/Middleware/HandleInertiaRequests.php'));
+        copy(__DIR__ . '/../../stubs/app/Http/Middleware/HandleInertiaRequests.php', app_path('Http/Middleware/HandleInertiaRequests.php'));
 
         // Views...
-        copy(__DIR__.'/../../stubs/resources/views/app.blade.php', resource_path('views/app.blade.php'));
+        copy(__DIR__ . '/../../stubs/resources/views/app.blade.php', resource_path('views/app.blade.php'));
 
         @unlink(resource_path('views/welcome.blade.php'));
 
@@ -143,16 +143,16 @@ class InstallCommand extends Command implements PromptsForMissingInput
         (new Filesystem)->ensureDirectoryExists(resource_path('js/pages'));
 
         if (true || $this->option('typescript')) {
-            (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/ts/resources/js/components', resource_path('js/components'));
-            (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/ts/resources/js/layouts', resource_path('js/layouts'));
-            (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/ts/resources/js/pages', resource_path('js/pages'));
-            (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/ts/resources/js/lib', resource_path('js/lib'));
-            (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/ts/resources/js/types', resource_path('js/types'));
+            (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/ts/resources/js/components', resource_path('js/components'));
+            (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/ts/resources/js/layouts', resource_path('js/layouts'));
+            (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/ts/resources/js/pages', resource_path('js/pages'));
+            (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/ts/resources/js/lib', resource_path('js/lib'));
+            (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/ts/resources/js/types', resource_path('js/types'));
         } else {
-            (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/js/resources/js/Components', resource_path('js/Components'));
-            (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/js/resources/js/Layouts', resource_path('js/Layouts'));
-            (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/js/resources/js/Pages', resource_path('js/Pages'));
-            (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/ts/resources/js/lib', resource_path('js/lib'));
+            (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/js/resources/js/Components', resource_path('js/Components'));
+            (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/js/resources/js/Layouts', resource_path('js/Layouts'));
+            (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/js/resources/js/Pages', resource_path('js/Pages'));
+            (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/ts/resources/js/lib', resource_path('js/lib'));
         }
 
         // Tests...
@@ -161,23 +161,23 @@ class InstallCommand extends Command implements PromptsForMissingInput
         }
 
         if ($this->option('pest')) {
-            (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/pest-tests/Feature', base_path('tests/Feature'));
+            (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/pest-tests/Feature', base_path('tests/Feature'));
         } else {
-            (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/tests/Feature', base_path('tests/Feature'));
+            (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/tests/Feature', base_path('tests/Feature'));
         }
 
         // Routes...
-        copy(__DIR__.'/../../stubs/routes/web.php', base_path('routes/web.php'));
+        copy(__DIR__ . '/../../stubs/routes/web.php', base_path('routes/web.php'));
 
         // Tailwind / Vite...
-        copy(__DIR__.'/../../stubs/resources/css/app.css', resource_path('css/app.css'));
-        copy(__DIR__.'/../../stubs/postcss.config.js', base_path('postcss.config.js'));
-        copy(__DIR__.'/../../stubs/tailwind.config.js', base_path('tailwind.config.js'));
-        copy(__DIR__.'/../../stubs/vite.config.js', base_path('vite.config.js'));
+        copy(__DIR__ . '/../../stubs/resources/css/app.css', resource_path('css/app.css'));
+        copy(__DIR__ . '/../../stubs/postcss.config.js', base_path('postcss.config.js'));
+        copy(__DIR__ . '/../../stubs/tailwind.config.js', base_path('tailwind.config.js'));
+        copy(__DIR__ . '/../../stubs/vite.config.js', base_path('vite.config.js'));
 
         if (true || $this->option('typescript')) {
-            copy(__DIR__.'/../../stubs/ts/tsconfig.json', base_path('tsconfig.json'));
-            copy(__DIR__.'/../../stubs/ts/resources/js/app.tsx', resource_path('js/app.tsx'));
+            copy(__DIR__ . '/../../stubs/ts/tsconfig.json', base_path('tsconfig.json'));
+            copy(__DIR__ . '/../../stubs/ts/resources/js/app.tsx', resource_path('js/app.tsx'));
 
             if (file_exists(resource_path('js/bootstrap.js'))) {
                 rename(resource_path('js/bootstrap.js'), resource_path('js/bootstrap.ts'));
@@ -189,8 +189,8 @@ class InstallCommand extends Command implements PromptsForMissingInput
             $this->replaceInFile('.jsx', '.tsx', base_path('tailwind.config.js'));
             $this->replaceInFile('.js', '.ts', base_path('tailwind.config.js'));
         } else {
-            copy(__DIR__.'/../../stubs/js/jsconfig.json', base_path('jsconfig.json'));
-            copy(__DIR__.'/../../stubs/js/resources/js/app.jsx', resource_path('js/app.jsx'));
+            copy(__DIR__ . '/../../stubs/js/jsconfig.json', base_path('jsconfig.json'));
+            copy(__DIR__ . '/../../stubs/js/resources/js/app.jsx', resource_path('js/app.jsx'));
         }
 
         if (file_exists(resource_path('js/app.js'))) {
@@ -235,11 +235,11 @@ class InstallCommand extends Command implements PromptsForMissingInput
                 return false;
             }
 
-            (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/pest-tests/Feature', base_path('tests/Feature'));
-            (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/pest-tests/Unit', base_path('tests/Unit'));
-            (new Filesystem)->copy(__DIR__.'/../../stubs/pest-tests/Pest.php', base_path('tests/Pest.php'));
+            (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/pest-tests/Feature', base_path('tests/Feature'));
+            (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/pest-tests/Unit', base_path('tests/Unit'));
+            (new Filesystem)->copy(__DIR__ . '/../../stubs/pest-tests/Pest.php', base_path('tests/Pest.php'));
         } else {
-            (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/tests/Feature', base_path('tests/Feature'));
+            (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/tests/Feature', base_path('tests/Feature'));
         }
 
         return true;
@@ -248,7 +248,7 @@ class InstallCommand extends Command implements PromptsForMissingInput
     /**
      * Install the given middleware names into the application.
      *
-     * @param  array|string  $name
+     * @param  array|string  $names
      * @param  string  $group
      * @param  string  $modifier
      * @return void
@@ -258,17 +258,17 @@ class InstallCommand extends Command implements PromptsForMissingInput
         $bootstrapApp = file_get_contents(base_path('bootstrap/app.php'));
 
         $names = collect(Arr::wrap($names))
-            ->filter(fn ($name) => ! Str::contains($bootstrapApp, $name))
+            ->filter(fn($name) => ! Str::contains($bootstrapApp, $name))
             ->whenNotEmpty(function ($names) use ($bootstrapApp, $group, $modifier) {
-                $names = $names->map(fn ($name) => "$name")->implode(','.PHP_EOL.'            ');
+                $names = $names->map(fn($name) => "$name")->implode(',' . PHP_EOL . '            ');
 
                 $bootstrapApp = str_replace(
                     '->withMiddleware(function (Middleware $middleware) {',
                     '->withMiddleware(function (Middleware $middleware) {'
-                        .PHP_EOL."        \$middleware->$group($modifier: ["
-                        .PHP_EOL."            $names,"
-                        .PHP_EOL.'        ]);'
-                        .PHP_EOL,
+                        . PHP_EOL . "        \$middleware->$group($modifier: ["
+                        . PHP_EOL . "            $names,"
+                        . PHP_EOL . '        ]);'
+                        . PHP_EOL,
                     $bootstrapApp,
                 );
 
@@ -287,17 +287,17 @@ class InstallCommand extends Command implements PromptsForMissingInput
         $bootstrapApp = file_get_contents(base_path('bootstrap/app.php'));
 
         $aliases = collect($aliases)
-            ->filter(fn ($alias) => ! Str::contains($bootstrapApp, $alias))
+            ->filter(fn($alias) => ! Str::contains($bootstrapApp, $alias))
             ->whenNotEmpty(function ($aliases) use ($bootstrapApp) {
-                $aliases = $aliases->map(fn ($name, $alias) => "'$alias' => $name")->implode(','.PHP_EOL.'            ');
+                $aliases = $aliases->map(fn($name, $alias) => "'$alias' => $name")->implode(',' . PHP_EOL . '            ');
 
                 $bootstrapApp = str_replace(
                     '->withMiddleware(function (Middleware $middleware) {',
                     '->withMiddleware(function (Middleware $middleware) {'
-                        .PHP_EOL.'        $middleware->alias(['
-                        .PHP_EOL."            $aliases,"
-                        .PHP_EOL.'        ]);'
-                        .PHP_EOL,
+                        . PHP_EOL . '        $middleware->alias(['
+                        . PHP_EOL . "            $aliases,"
+                        . PHP_EOL . '        ]);'
+                        . PHP_EOL,
                     $bootstrapApp,
                 );
 
@@ -398,7 +398,7 @@ class InstallCommand extends Command implements PromptsForMissingInput
 
         file_put_contents(
             base_path('package.json'),
-            json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT).PHP_EOL
+            json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . PHP_EOL
         );
     }
 
@@ -454,12 +454,12 @@ class InstallCommand extends Command implements PromptsForMissingInput
             try {
                 $process->setTty(true);
             } catch (RuntimeException $e) {
-                $this->output->writeln('  <bg=yellow;fg=black> WARN </> '.$e->getMessage().PHP_EOL);
+                $this->output->writeln('  <bg=yellow;fg=black> WARN </> ' . $e->getMessage() . PHP_EOL);
             }
         }
 
         $process->run(function ($type, $line) {
-            $this->output->write('    '.$line);
+            $this->output->write('    ' . $line);
         });
     }
 
@@ -483,7 +483,7 @@ class InstallCommand extends Command implements PromptsForMissingInput
     protected function promptForMissingArgumentsUsing()
     {
         return [
-            'stack' => fn () => select(
+            'stack' => fn() => select(
                 label: 'Which Breeze stack would you like to install?',
                 options: [
                     'react' => 'React with Inertia',
