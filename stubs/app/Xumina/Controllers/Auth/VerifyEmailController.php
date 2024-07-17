@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\{{ $panel }}Auth;
+namespace App\Xumina\{{ $panel }}\Controllers\{{ $panel }}Auth;
 
-use App\Http\Controllers\Controller;
+use App\Xumina\{{ $panel }}\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;

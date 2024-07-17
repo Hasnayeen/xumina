@@ -2,6 +2,7 @@
 
 namespace Hasnayeen\Xumina\Dashlets;
 
+use Hasnayeen\Xumina\Components\Label;
 use Hasnayeen\Xumina\Components\Section;
 use Hasnayeen\Xumina\Dashlet;
 use Illuminate\Support\Str;
@@ -14,6 +15,10 @@ class StatDashlet extends Dashlet
     {
         return [
             Section::make(Str::headline($this->name))
+                ->items([
+                    Label::make()
+                        ->body($this->value)
+                ])
         ];
     }
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\{{ $panel }}\Auth;
+namespace App\Xumina\{{ $panel }}\Controllers\{{ $panel }}\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Xumina\{{ $panel }}\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

@@ -98,8 +98,9 @@ class PanelCommand extends Command implements PromptsForMissingInput
             );
             File::copyDirectory(
                 __DIR__ . '/../../stubs/app/Http/Requests/Auth',
-                app_path('Xumina/' . Str::studly($name) . '/Requests/Auth')
+                $filePath = app_path('Xumina/' . Str::studly($name) . '/Requests/Auth')
             );
+            $this->replaceInFile('{{ $panel }}', Str::studly($name), $filePath);
             foreach (File::files(app_path('Xumina/' . Str::studly($name) . '/Controllers/Auth')) as $file) {
                 $this->replaceInFile('{{ $panel }}', Str::studly($name), $file->getPathname());
                 $this->replaceInFile('{{ $inertia }}', Str::studly($name) . '/', $file->getPathname());
@@ -112,8 +113,8 @@ class PanelCommand extends Command implements PromptsForMissingInput
             foreach (File::files(app_path('Xumina/' . Str::studly($name) . '/Pages/Auth')) as $file) {
                 $this->replaceInFile('{{ $panel }}', Str::studly($name), $file->getPathname());
             }
-            if (! File::exists(resource_path('js/pages/' . Str::kebab($name))) . '/auth') {
-                File::makeDirectory(resource_path('js/pages/' . Str::kebab($name)) . '/auth');
+            if (! File::exists(resource_path('js/pages/' . Str::kebab($name) . '/auth'))) {
+                File::makeDirectory(resource_path('js/pages/' . Str::kebab($name) . '/auth'));
             }
             File::copy(__DIR__ . '/../../stubs/ts/resources/js/pages/auth/login.tsx', resource_path('js/pages/' . Str::kebab($name) . '/auth/login.tsx'));
             File::copy(__DIR__ . '/../../stubs/ts/resources/js/pages/auth/register.tsx', resource_path('js/pages/' . Str::kebab($name) . '/auth/register.tsx'));
@@ -137,7 +138,7 @@ class PanelCommand extends Command implements PromptsForMissingInput
         if (! File::exists(resource_path('js/pages/' . Str::kebab($name)))) {
             File::makeDirectory(resource_path('js/pages/' . Str::kebab($name)), force: true);
         }
-        File::copy(__DIR__ . '/../../stubs/resources/js/pages/dashboard.tsx', $filePath = resource_path('js/pages/' . Str::kebab($name) . '/dashboard.tsx'));
+        File::copy(__DIR__ . '/../../stubs/ts/resources/js/pages/dashboard.tsx', $filePath = resource_path('js/pages/' . Str::kebab($name) . '/dashboard.tsx'));
         $this->components->info(sprintf('%s [%s] created successfully.', 'React component', $filePath));
     }
 }

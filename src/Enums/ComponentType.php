@@ -10,4 +10,5 @@ enum ComponentType: string
     case Field = 'Field';
     case Table = 'Table';
     case Dashlet = 'Dashlet';
+    case Label = 'Label';
 }
