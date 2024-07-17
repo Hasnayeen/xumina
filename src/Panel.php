@@ -73,7 +73,7 @@ class Panel
 
     public function getPath(): string
     {
-        return $this->path ?? app_path('Xumina/' . Str::studly($this->getName()));
+        return $this->path ?? app_path('Xumina/'.Str::studly($this->getName()));
     }
 
     /**
@@ -123,7 +123,7 @@ class Panel
 
     public function getRootPage(): string
     {
-        return $this->rootPage ?? $this->getPages()->filter(fn($page) => class_basename($page) === 'Dashboard')->first();
+        return $this->rootPage ?? $this->getPages()->filter(fn ($page) => class_basename($page) === 'Dashboard')->first();
     }
 
     public function layout(string $layout): static
@@ -212,7 +212,7 @@ class Panel
                 ->items(
                     Xumina::getCurrentPanel()
                         ->getPages()
-                        ->filter(fn($page) => ! Str::contains($page, 'Auth'))
+                        ->filter(fn ($page) => ! Str::contains($page, 'Auth'))
                         ->concat(Xumina::getCurrentPanel()->getResources())
                         ->map(function ($item) {
                             if ($item::showInNavigation()) {
