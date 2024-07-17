@@ -2,6 +2,7 @@
 
 namespace Hasnayeen\Xumina;
 
+use Closure;
 use Hasnayeen\Xumina\Components\Icon;
 use Hasnayeen\Xumina\Contracts\Layout;
 use Hasnayeen\Xumina\Contracts\Theme;
@@ -33,7 +34,20 @@ class Panel
         protected ?string $logoText = null,
         protected ?string $theme = DefaultTheme::class,
         protected array $navigations = [],
+        protected ?Closure $authorizationCallback = null,
     ) {}
+
+    public function authorize(Closure $callback): static
+    {
+        $this->authorizationCallback = $callback;
+
+        return $this;
+    }
+
+    public function getAuthorizationCallback()
+    {
+        return $this->authorizationCallback;
+    }
 
     public function getName(): string
     {
@@ -59,7 +73,7 @@ class Panel
 
     public function getPath(): string
     {
-        return $this->path ?? app_path('Xumina/'.Str::studly($this->getName()));
+        return $this->path ?? app_path('Xumina/' . Str::studly($this->getName()));
     }
 
     /**
@@ -109,7 +123,7 @@ class Panel
 
     public function getRootPage(): string
     {
-        return $this->rootPage ?? $this->getPages()->filter(fn ($page) => class_basename($page) === 'Dashboard')->first();
+        return $this->rootPage ?? $this->getPages()->filter(fn($page) => class_basename($page) === 'Dashboard')->first();
     }
 
     public function layout(string $layout): static
@@ -198,7 +212,7 @@ class Panel
                 ->items(
                     Xumina::getCurrentPanel()
                         ->getPages()
-                        ->filter(fn ($page) => ! Str::contains($page, 'Auth'))
+                        ->filter(fn($page) => ! Str::contains($page, 'Auth'))
                         ->concat(Xumina::getCurrentPanel()->getResources())
                         ->map(function ($item) {
                             if ($item::showInNavigation()) {

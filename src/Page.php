@@ -4,6 +4,7 @@ namespace Hasnayeen\Xumina;
 
 use Hasnayeen\Xumina\Facades\Xumina;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -21,6 +22,8 @@ abstract class Page
         protected Content $content,
         protected Layout $layout,
     ) {
+        Gate::allowIf(call_user_func(Xumina::getCurrentPanel()->getAuthorizationCallback(), auth()->user()));
+        $this->authorize();
         Inertia::share('title', static::getPageTitle());
         Xumina::getCurrentPanel()->currentPage($this);
     }
@@ -28,6 +31,34 @@ abstract class Page
     abstract public function outline(): array;
 
     abstract public static function routes(): array;
+
+    protected function authorize()
+    {
+        $action = request()->route()->getActionMethod();
+        $model = static::$model;
+        $record = request()->route($model::getRouteKeyName());
+
+        $policyMethod = $this->mapMethodToPolicy($action);
+
+        if ($record) {
+            Gate::authorize($policyMethod, $record);
+        } else {
+            Gate::authorize($policyMethod, $model);
+        }
+    }
+
+    protected function mapMethodToPolicy($method)
+    {
+        $map = [
+            'index' => 'viewAny',
+            'show' => 'view',
+            'store' => 'create',
+            'update' => 'update',
+            'destroy' => 'delete',
+        ];
+
+        return $map[$method] ?? $method;
+    }
 
     public static function getMiddlewares(): array
     {
@@ -102,7 +133,7 @@ abstract class Page
         return [
             [
                 'text' => $title = Xumina::getCurrentPanel()->getRootPage()::getPageTitle(),
-                'url' => route('xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab($title)),
+                'url' => route('xumina.' . Str::kebab(Xumina::getCurrentPanel()->getName()) . '.' . Str::kebab($title)),
             ],
         ];
     }
