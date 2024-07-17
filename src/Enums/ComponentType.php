@@ -9,4 +9,5 @@ enum ComponentType: string
     case Section = 'Section';
     case Field = 'Field';
     case Table = 'Table';
+    case Dashlet = 'Dashlet';
 }

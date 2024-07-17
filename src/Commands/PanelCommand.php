@@ -93,7 +93,7 @@ class PanelCommand extends Command implements PromptsForMissingInput
         $auth = true;
         if ($auth) {
             File::copyDirectory(
-                __DIR__ . '/../../stubs/app/Http/Controllers/Auth',
+                __DIR__ . '/../../stubs/app/Xumina/Controllers/Auth',
                 app_path('Xumina/' . Str::studly($name) . '/Controllers/Auth')
             );
             File::copyDirectory(
@@ -104,6 +104,13 @@ class PanelCommand extends Command implements PromptsForMissingInput
                 $this->replaceInFile('{{ $panel }}', Str::studly($name), $file->getPathname());
                 $this->replaceInFile('{{ $inertia }}', Str::studly($name) . '/', $file->getPathname());
                 $this->replaceInFile('{{ $route }}', 'xumina.' . Str::kebab($name) . '.', $file->getPathname());
+            }
+            File::copyDirectory(
+                __DIR__ . '/../../stubs/app/Xumina/Pages/Auth',
+                app_path('Xumina/' . Str::studly($name) . '/Pages/Auth'),
+            );
+            foreach (File::files(app_path('Xumina/' . Str::studly($name) . '/Pages/Auth')) as $file) {
+                $this->replaceInFile('{{ $panel }}', Str::studly($name), $file->getPathname());
             }
             File::copy(__DIR__ . '/../../stubs/ts/resources/js/pages/auth/login.tsx', $filePath = resource_path('js/pages/' . Str::kebab($name) . 'auth/login.tsx'));
             File::copy(__DIR__ . '/../../stubs/ts/resources/js/pages/auth/register.tsx', $filePath = resource_path('js/pages/' . Str::kebab($name) . 'auth/register.tsx'));
