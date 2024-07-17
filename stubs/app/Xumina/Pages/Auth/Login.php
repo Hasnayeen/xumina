@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Xumina\{{ $name }}\Pages\Auth;
+namespace App\Xumina\{{ $panel }}\Pages\Auth;
 
-use App\Xumina\{{ $name }}\Controllers\Auth\AuthenticatedSessionController;
+use App\Xumina\{{ $panel }}\Controllers\Auth\AuthenticatedSessionController;
 use Hasnayeen\Xumina\Components\Form;
 use Hasnayeen\Xumina\Components\Form\Input;
 use Hasnayeen\Xumina\Components\Section;
