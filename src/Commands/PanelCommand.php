@@ -112,8 +112,11 @@ class PanelCommand extends Command implements PromptsForMissingInput
             foreach (File::files(app_path('Xumina/' . Str::studly($name) . '/Pages/Auth')) as $file) {
                 $this->replaceInFile('{{ $panel }}', Str::studly($name), $file->getPathname());
             }
-            File::copy(__DIR__ . '/../../stubs/ts/resources/js/pages/auth/login.tsx', $filePath = resource_path('js/pages/' . Str::kebab($name) . '/auth/login.tsx'));
-            File::copy(__DIR__ . '/../../stubs/ts/resources/js/pages/auth/register.tsx', $filePath = resource_path('js/pages/' . Str::kebab($name) . '/auth/register.tsx'));
+            if (! File::exists(resource_path('js/pages/' . Str::kebab($name))) . '/auth') {
+                File::makeDirectory(resource_path('js/pages/' . Str::kebab($name)) . '/auth');
+            }
+            File::copy(__DIR__ . '/../../stubs/ts/resources/js/pages/auth/login.tsx', resource_path('js/pages/' . Str::kebab($name) . '/auth/login.tsx'));
+            File::copy(__DIR__ . '/../../stubs/ts/resources/js/pages/auth/register.tsx', resource_path('js/pages/' . Str::kebab($name) . '/auth/register.tsx'));
             $this->components->info('Auth scafollded successfully.');
         }
     }
