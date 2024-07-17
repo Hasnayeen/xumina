@@ -13,8 +13,7 @@ class DashboardController
     public function __invoke(Request $request, Dashboard $page): Response
     {
         return Inertia::render(Xumina::getInertiaPath($request->route()->getName()), [
-            'content' => $page->content(),
-            'layout' => $page->layout(),
+            'data' => $page->data(),
         ]);
     }
 }
