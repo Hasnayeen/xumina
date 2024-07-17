@@ -42,10 +42,15 @@ abstract class Page
 
             return;
         }
+
+        if (! Gate::getPolicyFor(static::$model)) {
+            return;
+        }
+
         if (static::$model) {
             $action = request()->route()->getActionMethod();
             $model = static::$model;
-            $record = request()->route($model::getRouteKeyName());
+            $record = request()->route()->parameter(Str::kebab($model));
 
             $policyMethod = $this->mapMethodToPolicy($action);
 
