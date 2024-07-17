@@ -98,9 +98,10 @@ class PanelCommand extends Command implements PromptsForMissingInput
             );
             File::copyDirectory(
                 __DIR__ . '/../../stubs/app/Http/Requests/Auth',
-                $filePath = app_path('Xumina/' . Str::studly($name) . '/Requests/Auth')
+                app_path('Xumina/' . Str::studly($name) . '/Requests/Auth')
             );
-            $this->replaceInFile('{{ $panel }}', Str::studly($name), $filePath);
+            $this->replaceInFile('{{ $panel }}', Str::studly($name), app_path('Xumina/' . Str::studly($name) . '/Requests/Auth/LoginRequest.php'));
+
             foreach (File::files(app_path('Xumina/' . Str::studly($name) . '/Controllers/Auth')) as $file) {
                 $this->replaceInFile('{{ $panel }}', Str::studly($name), $file->getPathname());
                 $this->replaceInFile('{{ $inertia }}', Str::studly($name) . '/', $file->getPathname());

@@ -6,7 +6,7 @@ use App\Xumina\{{ $panel }}\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class EmailVerificationNotificationController extends Controller
+class EmailVerificationNotificationController
 {
     /**
      * Send a new email verification notification.
