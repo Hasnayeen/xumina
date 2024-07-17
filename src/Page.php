@@ -23,7 +23,8 @@ abstract class Page
         protected Layout $layout,
     ) {
         if (! Str::contains(request()->route()->getName(), 'auth')) {
-            Gate::allowIf(call_user_func(Xumina::getCurrentPanel()->getAuthorizationCallback(), auth()->user()));
+            $callback = Xumina::getCurrentPanel()->getAuthorizationCallback();
+            Gate::allowIf($callback ? call_user_func($callback, auth()->user()) : true);
             $this->authorize();
         }
         Inertia::share('title', static::getPageTitle());
@@ -36,16 +37,23 @@ abstract class Page
 
     protected function authorize()
     {
-        $action = request()->route()->getActionMethod();
-        $model = static::$model;
-        $record = request()->route($model::getRouteKeyName());
+        if (method_exists($this, 'authorize')) {
+            Gate::allowIf($this->authorize());
 
-        $policyMethod = $this->mapMethodToPolicy($action);
+            return;
+        }
+        if (static::$model) {
+            $action = request()->route()->getActionMethod();
+            $model = static::$model;
+            $record = request()->route($model::getRouteKeyName());
 
-        if ($record) {
-            Gate::authorize($policyMethod, $record);
-        } else {
-            Gate::authorize($policyMethod, $model);
+            $policyMethod = $this->mapMethodToPolicy($action);
+
+            if ($record) {
+                Gate::authorize($policyMethod, $record);
+            } else {
+                Gate::authorize($policyMethod, $model);
+            }
         }
     }
 
@@ -135,7 +143,7 @@ abstract class Page
         return [
             [
                 'text' => $title = Xumina::getCurrentPanel()->getRootPage()::getPageTitle(),
-                'url' => route('xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab($title)),
+                'url' => route('xumina.' . Str::kebab(Xumina::getCurrentPanel()->getName()) . '.' . Str::kebab($title)),
             ],
         ];
     }
