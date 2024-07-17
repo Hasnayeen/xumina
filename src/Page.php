@@ -22,8 +22,10 @@ abstract class Page
         protected Content $content,
         protected Layout $layout,
     ) {
-        Gate::allowIf(call_user_func(Xumina::getCurrentPanel()->getAuthorizationCallback(), auth()->user()));
-        $this->authorize();
+        if (! Str::contains(request()->route()->getName(), 'auth')) {
+            Gate::allowIf(call_user_func(Xumina::getCurrentPanel()->getAuthorizationCallback(), auth()->user()));
+            $this->authorize();
+        }
         Inertia::share('title', static::getPageTitle());
         Xumina::getCurrentPanel()->currentPage($this);
     }
