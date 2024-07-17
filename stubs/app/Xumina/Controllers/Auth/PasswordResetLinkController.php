@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Xumina\{{ $panel }}\Controllers\{{ $panel }}Auth;
+namespace App\Xumina\{{ $panel }}\Controllers\Auth;
 
 use App\Xumina\{{ $panel }}\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
