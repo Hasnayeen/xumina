@@ -21,7 +21,7 @@ class NewPasswordController
      */
     public function create(Request $request): Response
     {
-        return Inertia::render('{{ $inertia }}/Auth/ResetPassword', [
+        return Inertia::render('{{ $inertia }}/auth/reset-password', [
             'email' => $request->email,
             'token' => $request->route('token'),
         ]);
