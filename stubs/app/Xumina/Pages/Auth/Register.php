@@ -5,6 +5,7 @@ namespace App\Xumina\{{ $panel }}\Pages\Auth;
 use App\Xumina\{{ $panel }}\Controllers\Auth\RegisteredUserController;
 use Hasnayeen\Xumina\Components\Form;
 use Hasnayeen\Xumina\Components\Form\Input;
+use Hasnayeen\Xumina\Components\Section;
 use Hasnayeen\Xumina\Pages\AuthPage;
 use Illuminate\Support\Facades\Route;
 
@@ -15,20 +16,23 @@ class Register extends AuthPage
     public function outline(): array
     {
         return [
-            Form::make('register')
-                ->columns(1)
-                ->fields([
-                    Input::make('name'),
-                    Input::make('email')
-                        ->type('email'),
-                    Input::make('password')
-                        ->type('password'),
-                    Input::make('confirm_password')
-                        ->type('password'),
-                ])
-                ->submitTo('xumina.{{ $panelKebab }}.auth.register.store')
-                ->submitButtonLabel(__('Register'))
-                ->cancelButton(false)
+            Section::make('register')
+                ->items([
+                Form::make('register')
+                    ->columns(1)
+                    ->fields([
+                        Input::make('name'),
+                        Input::make('email')
+                            ->type('email'),
+                        Input::make('password')
+                            ->type('password'),
+                        Input::make('password_confirmation')
+                            ->type('password'),
+                    ])
+                    ->submitTo('xumina.{{ $panelKebab }}.auth.register.store')
+                    ->submitButtonLabel(__('Register'))
+                    ->cancelButton(false)
+            ])
         ];
     }
 
