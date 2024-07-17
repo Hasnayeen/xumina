@@ -25,7 +25,7 @@ class Login extends AuthPage
                             Input::make('password')
                                 ->type('password'),
                         ])
-                        ->submitTo('xumina.{{ $panel }}.auth.login.store')
+                        ->submitTo('xumina.{{ $panelKebab }}.auth.login.store')
                         ->submitButtonLabel(__('Login'))
                 ])
         ];

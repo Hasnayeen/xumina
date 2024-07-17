@@ -25,7 +25,7 @@ class Register extends AuthPage
                     Input::make('confirm_password')
                         ->type('password'),
                 ])
-                ->submitTo('xumina.{{ $panel }}.auth.register.store')
+                ->submitTo('xumina.{{ $panelKebab }}.auth.register.store')
                 ->submitButtonLabel(__('Register'))
         ];
     }
