@@ -4,6 +4,7 @@ namespace App\Xumina\{{ $panel }}\Controllers\Auth;
 
 use App\Xumina\{{ $panel }}\Controllers\Controller;
 use App\Xumina\{{ $panel }}\Requests\Auth\LoginRequest;
+use App\Xumina\{{ $panel }}\Pages\Auth\Login;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,11 +17,12 @@ class AuthenticatedSessionController
     /**
      * Display the login view.
      */
-    public function create(): Response
+    public function create(Login $page): Response
     {
         return Inertia::render('{{ $inertia }}auth/login', [
             'canResetPassword' => Route::has('{{ $route }}password.request'),
             'status' => session('status'),
+            'data' => $page->data(),
         ]);
     }
 
