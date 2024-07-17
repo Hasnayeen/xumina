@@ -25,7 +25,7 @@ abstract class Dashlet
             'id' => $this->id,
             'type' => ComponentType::Dashlet->value,
             'data' => [
-                'items' => array_map(fn($component) => $component->toArray(), $this->outline()),
+                'items' => array_map(fn ($component) => $component->toArray(), $this->outline()),
             ],
         ];
     }

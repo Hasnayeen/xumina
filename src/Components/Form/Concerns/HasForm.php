@@ -49,7 +49,7 @@ trait HasForm
 
             return redirect()
                 ->route($form->getRedirectTo())
-                ->with('message', class_basename($model) . (is_subclass_of($this, CreatePage::class) ? ' created successfully' : ' updated successfully'))
+                ->with('message', class_basename($model).(is_subclass_of($this, CreatePage::class) ? ' created successfully' : ' updated successfully'))
                 ->with('type', 'success');
         } catch (ValidationException $e) {
             DB::rollBack();

@@ -17,8 +17,8 @@ class StatDashlet extends Dashlet
             Section::make(Str::headline($this->name))
                 ->items([
                     Label::make()
-                        ->body($this->value)
-                ])
+                        ->body($this->value),
+                ]),
         ];
     }
 
