@@ -18,7 +18,7 @@ class {{ $model }} extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return '{{ $model }}';
+        return '{{ $modelHeadline }}';
     }
 
     public static function getNavigationIcon(): string

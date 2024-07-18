@@ -27,6 +27,7 @@ class Table
         protected array|Collection|null $records = null,
         protected array $columns = [],
         protected array $with = [],
+        protected array $actions = [],
     ) {
         $this->searchable = true;
     }
@@ -113,6 +114,13 @@ class Table
         return $relations->toArray();
     }
 
+    public function actions(array $actions): self
+    {
+        $this->actions = $actions;
+
+        return $this;
+    }
+
     public function toArray(): array
     {
         $query = $this->getQuery();
@@ -135,6 +143,7 @@ class Table
                 'pageSizeOptions' => $this->pageSizeOptions,
                 'globalSort' => $this->sortable,
                 'globalSearch' => $this->searchable && Arr::first($this->columns, fn ($column) => $column->toArray()['data']['searchable']),
+                'actions' => array_map(fn ($action) => $action->toArray(), $this->actions),
             ],
         ];
     }

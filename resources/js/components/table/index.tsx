@@ -3,7 +3,7 @@ import { Button } from "../ui/button"
 import { Checkbox } from "../ui/checkbox"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
-import ActionDropdown from "./action-dropdown"
+import ActionDropdown, { Action } from "./action-dropdown"
 import DataTable, { PaginatedData } from "./data-table"
 import { useQuery } from "@tanstack/react-query";
 import { get } from 'lodash'
@@ -13,13 +13,14 @@ interface TableProps {
   columns: [],
   model: {},
   queryKey: [],
+  actions: Action[],
   globalSort: boolean,
   globalSearch: boolean,
   pagination: {},
   pageSizeOptions?: (number | string)[],
 }
 
-export default function Table ({ id, columns, model, queryKey, globalSort = false, globalSearch, pagination, pageSizeOptions }: PropsWithChildren<TableProps>) {
+export default function Table ({ id, columns, model, queryKey, actions, globalSort = false, globalSearch, pagination, pageSizeOptions }: PropsWithChildren<TableProps>) {
   type Model = typeof model
 
   const dataQuery = () => {
@@ -95,11 +96,11 @@ export default function Table ({ id, columns, model, queryKey, globalSort = fals
       enableHiding: false,
       size: 20,
       cell: ({ row }) => {
-        const payment = row.original
-
-        return (
-          <ActionDropdown />
-        )
+        if (actions.length > 0) {
+          return (
+            <ActionDropdown actions={actions} rowData={row.original} />
+          )
+        }
       },
     },
   ]

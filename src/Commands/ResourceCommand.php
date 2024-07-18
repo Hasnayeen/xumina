@@ -74,43 +74,40 @@ class ResourceCommand extends Command implements PromptsForMissingInput
 
     protected function createResource(string $panel, string $model, string $name): void
     {
-        if (! File::exists(app_path('Xumina/'.Str::studly($panel).'/Resources'))) {
-            File::makeDirectory(app_path('Xumina/'.Str::studly($panel).'/Resources'), force: true);
-        }
+        $this->ensureDirectoryExists(app_path('Xumina/'.Str::studly($panel).'/Resources'));
         File::copy(__DIR__.'/../../stubs/app/Xumina/Resources/Resource.php', $filePath = app_path('Xumina/'.$panel.'/Resources/'.$model.'.php'));
         $this->replaceInFile('{{ $panel }}', $panel, $filePath);
         $this->replaceInFile('{{ $name }}', $name, $filePath);
         $this->replaceInFile('{{ $model }}', $model, $filePath);
+        $this->replaceInFile('{{ $modelHeadline }}', Str::headline($model), $filePath);
         $this->components->info(sprintf('%s [%s] created successfully.', 'Resource', $filePath));
     }
 
     protected function createResourcePages(string $panel, string $fqcn, string $model, string $name): void
     {
-        if (! File::exists(app_path('Xumina/'.Str::studly($panel).'/Pages/'.$name))) {
-            File::makeDirectory(app_path('Xumina/'.Str::studly($panel).'/Pages/'.$name), force: true);
-        }
-        $createPageCallback = function ($template, $filePath, $panel, $name, $model, $fqcn) {
-            File::copy(__DIR__.'/../../stubs/app/Xumina/Pages/'.$template.'.php', $filePath);
+        $this->ensureDirectoryExists(app_path('Xumina/'.Str::studly($panel).'/Pages/'.$name));
+        $createPageCallback = function ($template) use ($panel, $name, $model, $fqcn) {
+            File::copy(
+                __DIR__.'/../../stubs/app/Xumina/Pages/'.$template.'Page.php',
+                $filePath = app_path('Xumina/'.$panel.'/Pages/'.$name.'/'.$template.$model.'.php')
+            );
             $this->replaceInFile('{{ $panel }}', $panel, $filePath);
             $this->replaceInFile('{{ $resource }}', $name, $filePath);
             $this->replaceInFile('{{ $modelFqcn }}', $fqcn, $filePath);
             $this->replaceInFile('{{ $model }}', $model, $filePath);
             $this->replaceInFile('{{ $resourceKebab }}', Str::kebab($name), $filePath);
             $this->replaceInFile('{{ $modelKebab }}', Str::kebab($model), $filePath);
-            $this->components->info(sprintf('%s [%s] created successfully.', $template, $filePath));
+            $this->components->info(sprintf('%s [%s] created successfully.', 'Page', $filePath));
         };
-
-        $createPageCallback('CreatePage', app_path('Xumina/'.$panel.'/Pages/'.$name.'/Create'.$model.'.php'), $panel, $name, $model, $fqcn);
-        $createPageCallback('ListPage', app_path('Xumina/'.$panel.'/Pages/'.$name.'/List'.$model.'.php'), $panel, $name, $model, $fqcn);
-        $createPageCallback('EditPage', app_path('Xumina/'.$panel.'/Pages/'.$name.'/Edit'.$model.'.php'), $panel, $name, $model, $fqcn);
-        $createPageCallback('ViewPage', app_path('Xumina/'.$panel.'/Pages/'.$name.'/View'.$model.'.php'), $panel, $name, $model, $fqcn);
+        $createPageCallback('Create');
+        $createPageCallback('List');
+        $createPageCallback('Edit');
+        $createPageCallback('View');
     }
 
     protected function createControllers(string $panel, string $fqcn, string $model, string $name): void
     {
-        if (! File::exists(app_path('Xumina/'.Str::studly($panel).'/Controllers'))) {
-            File::makeDirectory(app_path('Xumina/'.Str::studly($panel).'/Controllers'), force: true);
-        }
+        $this->ensureDirectoryExists(app_path('Xumina/'.Str::studly($panel).'/Controllers'));
         File::copy(__DIR__.'/../../stubs/app/Xumina/Controllers/Controller.php', $filePath = app_path('Xumina/'.$panel.'/Controllers/'.$model.'Controller.php'));
         $this->replaceInFile('{{ $panel }}', $panel, $filePath);
         $this->replaceInFile('{{ $resource }}', $name, $filePath);
@@ -123,9 +120,7 @@ class ResourceCommand extends Command implements PromptsForMissingInput
 
     protected function createReactPages(string $panel, string $name): void
     {
-        if (! File::exists(resource_path('js/pages/'.Str::kebab($panel).'/'.Str::kebab($name)))) {
-            File::makeDirectory(resource_path('js/pages/'.Str::kebab($panel).'/'.Str::kebab($name)), force: true);
-        }
+        $this->ensureDirectoryExists(resource_path('js/pages/'.Str::kebab($panel).'/'.Str::kebab($name)));
         File::copy(__DIR__.'/../../stubs/ts/resources/js/pages/index.tsx', $filePath = resource_path('js/pages/'.Str::kebab($panel).'/'.Str::kebab($name).'/index.tsx'));
         $this->components->info(sprintf('%s [%s] created successfully.', 'React component', $filePath));
         File::copy(__DIR__.'/../../stubs/ts/resources/js/pages/create.tsx', $filePath = resource_path('js/pages/'.Str::kebab($panel).'/'.Str::kebab($name).'/create.tsx'));

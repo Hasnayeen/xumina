@@ -6,14 +6,18 @@ use Illuminate\Support\Facades\File;
 
 trait InteractWithFileSystem
 {
-    public function checkPanelExistence(string $name): bool
+    public function ensureDirectoryExists(string $filePath): bool
     {
-        return $this->folderExists($name);
+        if ($this->directoryExists($filePath)) {
+            return true;
+        }
+
+        return File::makeDirectory($filePath, force: true);
     }
 
-    public function folderExists(string $name): bool
+    public function directoryExists(string $filePath): bool
     {
-        return File::exists(app_path("Xumina/{$name}"));
+        return File::exists($filePath);
     }
 
     protected function replaceInFile(string $search, string $replace, string $path): void

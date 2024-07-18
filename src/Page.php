@@ -25,7 +25,7 @@ abstract class Page
         if (! Str::contains(request()->route()->getName(), 'auth')) {
             $callback = Xumina::getCurrentPanel()->getAuthorizationCallback();
             Gate::allowIf($callback ? call_user_func($callback, auth()->user()) : true);
-            $this->authorize();
+            $this->authorizeAccess();
         }
         Inertia::share('title', static::getPageTitle());
         Xumina::getCurrentPanel()->currentPage($this);
@@ -35,7 +35,7 @@ abstract class Page
 
     abstract public static function routes(): array;
 
-    protected function authorize()
+    protected function authorizeAccess()
     {
         if (method_exists($this, 'authorize')) {
             Gate::allowIf($this->authorize());
