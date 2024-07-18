@@ -4,6 +4,7 @@ namespace App\Xumina\{{ $panel }}\Pages\Auth;
 
 use App\Xumina\{{ $panel }}\Controllers\Auth\AuthenticatedSessionController;
 use Hasnayeen\Xumina\Components\Form;
+use Hasnayeen\Xumina\Components\Form\Checkbox;
 use Hasnayeen\Xumina\Components\Form\Input;
 use Hasnayeen\Xumina\Components\Section;
 use Hasnayeen\Xumina\Pages\AuthPage;
@@ -25,6 +26,9 @@ class Login extends AuthPage
                                 ->type('email'),
                             Input::make('password')
                                 ->type('password'),
+                            Checkbox::make('remember')
+                                ->label('Remember Me'),
+
                         ])
                         ->submitTo('xumina.{{ $panelKebab }}.auth.login.store')
                         ->submitButtonLabel(__('Login'))

@@ -65,10 +65,14 @@ export default function Field ({ form, attributes }: FieldProps) {
         );
       case 'checkbox':
         return (
-          <Checkbox
-            checked={field.state.value}
-            onCheckedChange={field.handleChange}
-          />
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id={attributes.name}
+              checked={field.state.value}
+              onCheckedChange={field.handleChange}
+            />
+            <Label htmlFor={attributes.name}>{attributes.label}</Label>
+          </div>
         );
       case 'radio':
         const radioOptions = normalizeOptions(attributes.options);
@@ -160,7 +164,7 @@ export default function Field ({ form, attributes }: FieldProps) {
     >
       {(field: any) => (
         <div className="py-2">
-          <Label htmlFor={attributes.name}>{attributes.label}</Label>
+          {attributes.type !== 'checkbox' && <Label htmlFor={attributes.name}>{attributes.label}</Label>}
           {renderField(field)}
           {errors[attributes.name] && <p className="text-red-500 text-sm mt-1">{errors[attributes.name]}</p>}
         </div>
