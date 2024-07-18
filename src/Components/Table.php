@@ -90,19 +90,20 @@ class Table
         $relations = collect();
         foreach ($this->columns as $column) {
             $relation = $column->toArray()['data']['relation'];
-            if (!str_contains($relation, '.')) {
+            if (! str_contains($relation, '.')) {
                 continue;
             }
             [$relation, $attribute] = explode('.', $relation);
             if ($relations->isEmpty()) {
-                $relations->push($relation . ':id,' . $attribute);
+                $relations->push($relation.':id,'.$attribute);
+
                 continue;
             }
             $relations->transform(function ($item) use ($relation, $attribute) {
                 if (Str::startsWith($item, $relation)) {
-                    $item .= ',' . $attribute;
+                    $item .= ','.$attribute;
                 } else {
-                    $relations->push($relation . ':id,' . $attribute);
+                    $relations->push($relation.':id,'.$attribute);
                 }
 
                 return $item;
@@ -121,7 +122,7 @@ class Table
             'type' => ComponentType::Table->value,
             'data' => [
                 'queryKey' => [$this->name, 'list'],
-                'columns' => array_map(fn($column) => $column->toArray(), $this->columns),
+                'columns' => array_map(fn ($column) => $column->toArray(), $this->columns),
                 'model' => array_reduce($this->columns, function ($carry, $item) {
                     $carry[$item->toArray()['data']['name']] = $item->toArray()['data']['type'];
 
@@ -133,7 +134,7 @@ class Table
                 },
                 'pageSizeOptions' => $this->pageSizeOptions,
                 'globalSort' => $this->sortable,
-                'globalSearch' => $this->searchable && Arr::first($this->columns, fn($column) => $column->toArray()['data']['searchable']),
+                'globalSearch' => $this->searchable && Arr::first($this->columns, fn ($column) => $column->toArray()['data']['searchable']),
             ],
         ];
     }
