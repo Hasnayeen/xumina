@@ -6,6 +6,7 @@ import { ArrowUpDown } from "lucide-react"
 import ActionDropdown from "./action-dropdown"
 import DataTable, { PaginatedData } from "./data-table"
 import { useQuery } from "@tanstack/react-query";
+import { get } from 'lodash'
 
 interface TableProps {
   id: string,
@@ -55,9 +56,10 @@ export default function Table ({ id, columns, model, queryKey, globalSort = fals
         return header
       },
       footer: footer ?? null,
-      cell: ({ row }: any) => (
-        <div>{row.getValue(name)}</div>
-      )
+      cell: ({ row }: any) => {
+        const value = get(row.original, name);
+        return <div>{value}</div>;
+      }
     }
   })
 

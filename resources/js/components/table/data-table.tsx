@@ -26,6 +26,7 @@ import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMe
 import { ArrowUpDownIcon, Settings2 } from "lucide-react"
 import { Input } from "../ui/input"
 import Pagination from "./pagination"
+import { get } from 'lodash';
 
 export interface PaginatedData {
   data: any[],
@@ -65,6 +66,13 @@ export default function DataTable<TData, TValue> ({ columns, globalSort, globalS
       columnVisibility,
       rowSelection,
       globalFilter,
+    },
+    sortingFns: {
+      custom: (rowA, rowB, columnId) => {
+        const valueA = get(rowA.original, columnId);
+        const valueB = get(rowB.original, columnId);
+        return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
+      },
     },
     enableGlobalFilter: globalSearch,
     onGlobalFilterChange: setGlobalFilter,
@@ -174,7 +182,7 @@ export default function DataTable<TData, TValue> ({ columns, globalSort, globalS
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="p-2">
+                    <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

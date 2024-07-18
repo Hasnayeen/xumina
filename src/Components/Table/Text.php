@@ -17,11 +17,15 @@ class Text
         protected ?string $description = null,
         protected ?string $header = null,
         protected ?int $limit = null,
+        protected ?string $relation = null,
     ) {}
 
     public static function make(?string $name = null): static
     {
-        return new self(Str::ulid(), $name);
+        $instance = new self(Str::ulid());
+        $instance->parseName($name);
+
+        return $instance;
     }
 
     public function header(string $header): static
@@ -38,6 +42,22 @@ class Text
         return $this;
     }
 
+    public function relation(?string $relation): static
+    {
+        $this->relation = $relation;
+
+        return $this;
+    }
+
+    protected function parseName(string $name): void
+    {
+        if (str_contains($name, '.')) {
+            $this->relation = $this->name = $name;
+        } else {
+            $this->name = $name;
+        }
+    }
+
     public function toArray(): array
     {
         return [
@@ -46,7 +66,8 @@ class Text
             'data' => [
                 'name' => $this->name,
                 'type' => 'string',
-                'header' => Str::headline($this->header ?? $this->name),
+                'relation' => $this->relation,
+                'header' => Str::headline($this->header ?? $this->relation ? explode('.', $this->name)[0] : $this->name),
                 'limit' => $this->limit,
                 'sortable' => $this->sortable,
                 'searchable' => $this->searchable,
