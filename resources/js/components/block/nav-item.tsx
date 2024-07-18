@@ -11,7 +11,7 @@ const navItemVariants = cva(
     variants: {
       variant: {
         default: "text-muted-foreground",
-        active: "bg-muted"
+        active: "bg-muted-foreground text-primary-foreground",
       }
     },
     defaultVariants: {
