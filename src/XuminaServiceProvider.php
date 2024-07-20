@@ -5,6 +5,7 @@ namespace Hasnayeen\Xumina;
 use App\Http\Middleware\HandleInertiaRequests;
 use Composer\InstalledVersions;
 use Hasnayeen\Xumina\Commands\InstallCommand;
+use Hasnayeen\Xumina\Commands\LayoutCommand;
 use Hasnayeen\Xumina\Commands\PanelCommand;
 use Hasnayeen\Xumina\Commands\ResourceCommand;
 use Hasnayeen\Xumina\Commands\SyncCommand;
@@ -31,6 +32,7 @@ class XuminaServiceProvider extends PackageServiceProvider
                 InstallCommand::class,
                 PanelCommand::class,
                 ResourceCommand::class,
+                LayoutCommand::class,
                 SyncCommand::class,
             ]);
     }
