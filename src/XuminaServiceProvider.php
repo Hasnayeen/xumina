@@ -9,6 +9,7 @@ use Hasnayeen\Xumina\Commands\LayoutCommand;
 use Hasnayeen\Xumina\Commands\PanelCommand;
 use Hasnayeen\Xumina\Commands\ResourceCommand;
 use Hasnayeen\Xumina\Commands\SyncCommand;
+use Hasnayeen\Xumina\Commands\ThemeCommand;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Console\AboutCommand;
@@ -34,6 +35,7 @@ class XuminaServiceProvider extends PackageServiceProvider
                 ResourceCommand::class,
                 LayoutCommand::class,
                 SyncCommand::class,
+                ThemeCommand::class,
             ]);
     }
 
