@@ -34,21 +34,32 @@ export default function ActionDropdown ({ actions, rowData }: ActionDropdownProp
       <DropdownMenuContent align="end">
         <DropdownMenuItem>
           {actions.map((action) => {
-            const Icon = iconMap[action.icon];
             if (action.url) {
               const url = action.url.replace(':id', rowData.id);
               return (
-                <DropdownMenuItem key={action.name} asChild>
+                <DropdownMenuItem key={action.label} asChild>
                   <Link href={url} className="flex items-center">
-                    {Icon && <Icon className="mr-2 h-4 w-4" />}
+                    {action.icon && (
+                      <span
+                        dangerouslySetInnerHTML={{ __html: action.icon }}
+                        aria-hidden="true"
+                        className="mr-2 h-4 w-4"
+                      />
+                    )}
                     {action.label}
                   </Link>
                 </DropdownMenuItem>
               );
             } else {
               return (
-                <DropdownMenuItem key={action.name} onSelect={() => handleAction(action)}>
-                  {Icon && <Icon className="mr-2 h-4 w-4" />}
+                <DropdownMenuItem key={action.label} onSelect={() => handleAction(action)}>
+                  {action.icon && (
+                    <span
+                      dangerouslySetInnerHTML={{ __html: action.icon }}
+                      aria-hidden="true"
+                      className="mr-2 h-4 w-4"
+                    />
+                  )}
                   {action.label}
                 </DropdownMenuItem>
               );

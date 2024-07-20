@@ -41,7 +41,7 @@ class XuminaServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        $this->app->singleton(Xumina::class, fn (Application $app) => new Xumina);
+        $this->app->singleton(Xumina::class, fn(Application $app) => new Xumina);
         $this->app->alias(Xumina::class, 'xumina');
     }
 
@@ -53,24 +53,22 @@ class XuminaServiceProvider extends PackageServiceProvider
         parent::boot();
         $xumina = app('xumina');
         Route::middleware(['web', HandleInertiaRequests::class])
-            ->group(__DIR__.'/../routes/web.php');
-        if (request()->segments()) {
-            $xumina->getPanels()
-                ->each(function (Panel $panel) use ($xumina) {
-                    if (request()->segments()[0] === $panel->getPrefix()) {
-                        $xumina->currentPanel($panel->getName());
-                        Authenticate::redirectUsing(fn () => route('xumina.'.Str::kebab($panel->getName()).'.auth.login'));
+            ->group(__DIR__ . '/../routes/web.php');
+        $xumina->getPanels()
+            ->each(function (Panel $panel) use ($xumina) {
+                if (request()->segments() && request()->segments()[0] === $panel->getPrefix()) {
+                    $xumina->currentPanel($panel->getName());
+                    Authenticate::redirectUsing(fn() => route('xumina.' . Str::kebab($panel->getName()) . '.auth.login'));
 
-                        return false;
-                    }
-                    if (in_array($panel->getPrefix(), ['', '/'])) {
-                        $xumina->currentPanel($panel->getName());
-                        Authenticate::redirectUsing(fn () => route('xumina.'.Str::kebab($panel->getName()).'.auth.login'));
+                    return false;
+                }
+                if (in_array($panel->getPrefix(), ['', '/'])) {
+                    $xumina->currentPanel($panel->getName());
+                    Authenticate::redirectUsing(fn() => route('xumina.' . Str::kebab($panel->getName()) . '.auth.login'));
 
-                        return false;
-                    }
-                });
-        }
+                    return false;
+                }
+            });
     }
 
     public function packageBooted(): void

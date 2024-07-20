@@ -46,6 +46,7 @@ type Action = {
     asLink?: boolean;
     size?: SizeVariant;
     class?: string;
+    requireConfirmation: boolean;
   };
 };
 
@@ -54,7 +55,15 @@ export default function ActionContainer ({ actions }: { actions: Action[] }) {
     <>
       {actions.map(({ id, data }) => (
         <div key={id} className="hidden items-center gap-2 md:ml-auto md:flex">
-          {data.url ? (
+          {data.requireConfirmation ? (
+            <Button
+              variant={(data.variant as ButtonVariant) ?? (data.asLink ? "link" : "default")}
+              size={data.size ?? "default"}
+              className={data.class}
+            >
+              {data.label}
+            </Button>
+          ) : (
             <Link
               href={data.url}
               className={cn(
@@ -67,14 +76,6 @@ export default function ActionContainer ({ actions }: { actions: Action[] }) {
             >
               {data.label}
             </Link>
-          ) : (
-            <Button
-              variant={(data.variant as ButtonVariant) ?? (data.asLink ? "link" : "default")}
-              size={data.size ?? "default"}
-              className={data.class}
-            >
-              {data.label}
-            </Button>
           )}
         </div>
       ))}

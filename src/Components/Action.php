@@ -9,12 +9,13 @@ class Action
 {
     private function __construct(
         protected string $id,
-        protected ?string $name = null,
-        protected ?string $label = null,
+        protected string | null $name = null,
+        protected string | null $label = null,
         protected bool $asButton = true,
         protected bool $asLink = false,
-        protected ?string $url = null,
-        protected ?string $action = null,
+        protected string | null $url = null,
+        protected string | null $action = null,
+        protected bool $requireConfirmation = false,
     ) {}
 
     public static function make(?string $name = null): static
@@ -59,6 +60,13 @@ class Action
         return $this;
     }
 
+    public function requireConfirmation(bool $condition = true): static
+    {
+        $this->requireConfirmation = $condition;
+
+        return $this;
+    }
+
     public function toArray(): array
     {
         return [
@@ -70,8 +78,8 @@ class Action
                 'asButton' => $this->asButton,
                 'asLink' => $this->asLink,
                 'action' => $this->action,
+                'requireConfirmation' => $this->requireConfirmation,
             ],
         ];
-
     }
 }

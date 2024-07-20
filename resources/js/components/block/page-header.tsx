@@ -18,9 +18,6 @@ export default function PageHeader ({ ...props }) {
       <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
         {title}
       </h1>
-      <Badge variant="outline" className="ml-auto sm:ml-0 hidden">
-        In stock
-      </Badge>
       <ActionContainer actions={props.actions} />
     </div>
   )

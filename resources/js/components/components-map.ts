@@ -1,8 +1,8 @@
 import { Button } from "./ui/button"
 import { Card } from "./ui/card"
 import Form from "./form"
-import Table from "./table";
-import Section from "./ui/section";
+import Table from "./table"
+import Section from "./ui/section"
 
 type ComponentList =
   | 'Button'

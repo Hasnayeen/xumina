@@ -148,7 +148,7 @@ abstract class Page
         return [
             [
                 'text' => $title = Xumina::getCurrentPanel()->getRootPage()::getPageTitle(),
-                'url' => route('xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab($title)),
+                'url' => route('xumina.' . Str::kebab(Xumina::getCurrentPanel()->getName()) . '.' . Str::kebab($title)),
             ],
         ];
     }

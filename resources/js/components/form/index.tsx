@@ -1,4 +1,5 @@
 import { useForm } from "@tanstack/react-form";
+import { useQueryClient } from "@tanstack/react-query";
 import { FormHTMLAttributes, PropsWithChildren, ReactNode } from "react";
 import { renderForm } from "./render-form";
 import { VariantProps } from "class-variance-authority";
@@ -14,6 +15,7 @@ interface FormProps extends GridColumnsProps, FormHTMLAttributes<HTMLFormElement
   id: string,
   fields: [],
   columns: any,
+  model: string,
   className: string,
   submitTo: string,
   submitButtonLabel: string,
@@ -21,15 +23,19 @@ interface FormProps extends GridColumnsProps, FormHTMLAttributes<HTMLFormElement
   cancelButtonLabel: string,
 }
 
-export default function Form ({ id, fields, columns, className = "gap-y-0 lg:gap-y-0", submitTo, submitButtonLabel, cancelButton, cancelButtonLabel }: PropsWithChildren<FormProps>) {
+export default function Form ({ id, fields, columns, model, className = "gap-y-0 lg:gap-y-0", submitTo, submitButtonLabel, cancelButton, cancelButtonLabel }: PropsWithChildren<FormProps>) {
+  const queryClient = useQueryClient()
   const values: [] = extractDefaultValues(fields)
   const { flash: { oldInput } } = usePage<PageProps>().props
+
   const form = useForm({
     defaultValues: oldInput ?? values,
     onSubmit: async ({ value }: Record<string, {}>) => {
+      queryClient.invalidateQueries({ queryKey: [model, 'list'] })
       router.post(submitTo, value)
     }
   })
+
   const handleClick = () => {
     history.back()
   }
