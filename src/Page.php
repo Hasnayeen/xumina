@@ -117,7 +117,7 @@ abstract class Page
 
     public function getModel(): ?Model
     {
-        return new $this::$model ?? null;
+        return new static::$model ?? null;
     }
 
     public static function getModelName(): string
@@ -132,7 +132,12 @@ abstract class Page
 
     public static function getResourceName(): ?string
     {
-        return static::$resource;
+        return class_basename(static::$resource);
+    }
+
+    public function getResource(): Resource
+    {
+        return new static::$resource;
     }
 
     public static function getPageTitle(): ?string
@@ -148,7 +153,7 @@ abstract class Page
         return [
             [
                 'text' => $title = Xumina::getCurrentPanel()->getRootPage()::getPageTitle(),
-                'url' => route('xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab($title)),
+                'url' => route('xumina.' . Str::kebab(Xumina::getCurrentPanel()->getName()) . '.' . Str::kebab($title)),
             ],
         ];
     }

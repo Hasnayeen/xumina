@@ -45,7 +45,7 @@ class {{ $model }}Controller
         return $page->save($request->all(), '{{ $modelKebab }}', $record);
     }
 
-    public function destroy({{ $model }} $record, List{{ $model }} $page)
+    public function destroy({{ $model }} $record, View{{ $model }} $page)
     {
         return $page->delete($record);
     }

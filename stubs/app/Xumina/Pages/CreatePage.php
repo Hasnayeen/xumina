@@ -3,6 +3,7 @@
 namespace App\Xumina\{{ $panel }}\Pages\{{ $resource }};
 
 use {{ $modelFqcn }};
+use {{ $resourceFqcn }};
 use App\Xumina\{{ $panel }}\Controllers\{{ $model }}Controller;
 use Hasnayeen\Xumina\Components\Form;
 use Hasnayeen\Xumina\Pages\CreatePage;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 class Create{{ $model }} extends CreatePage
 {
     protected static string | null $model = {{ $model }}::class;
-    protected static string | null $resource = '{{ $resource }}';
+    protected static string | null $resource = {{ $resource }}::class;
     protected static string | null $title = 'Create {{ $model }}';
 
     public function outline(): array

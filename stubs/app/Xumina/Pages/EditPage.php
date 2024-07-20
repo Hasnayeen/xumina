@@ -3,6 +3,7 @@
 namespace App\Xumina\{{ $panel }}\Pages\{{ $resource }};
 
 use {{ $modelFqcn }};
+use {{ $resourceFqcn }};
 use App\Xumina\{{ $panel }}\Controllers\{{ $model }}Controller;
 use Hasnayeen\Xumina\Components\Form;
 use Hasnayeen\Xumina\Pages\CreatePage;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 class Edit{{ $model }} extends EditPage
 {
     protected static string | null $model = {{ $model }}::class;
-    protected static string | null $resource = '{{ $resource }}';
+    protected static string | null $resource = {{ $resource }}::class;
     protected static string | null $title = 'Edit {{ $model }}';
 
     public function outline(): array
@@ -25,9 +26,9 @@ class Edit{{ $model }} extends EditPage
     public static function routes(): array
     {
         return [
-            Route::get('{{ $resourceKebab }}/{{{ $modelKebab }}}/create', [{{ $model }}Controller::class, 'edit'])
+            Route::get('{{ $resourceKebab }}/{{{ $modelKebab }}}/edit', [{{ $model }}Controller::class, 'edit'])
                 ->name('{{ $resourceKebab }}.edit'),
-            Route::('{{ $resourceKebab }}', [{{ $model }}Controller::class, 'store'])
+            Route::put('{{ $resourceKebab }}/{{{ $modelKebab }}}', [{{ $model }}Controller::class, 'update'])
                 ->name('{{ $resourceKebab }}.update'),
         ];
     }
