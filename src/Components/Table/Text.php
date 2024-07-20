@@ -2,12 +2,14 @@
 
 namespace Hasnayeen\Xumina\Components\Table;
 
+use Hasnayeen\Xumina\Components\Table\Concerns\HasRelation;
 use Hasnayeen\Xumina\Components\Table\Concerns\Searchable;
 use Hasnayeen\Xumina\Components\Table\Concerns\Sortable;
 use Illuminate\Support\Str;
 
 class Text
 {
+    use HasRelation;
     use Searchable;
     use Sortable;
 
@@ -17,7 +19,6 @@ class Text
         protected ?string $description = null,
         protected ?string $header = null,
         protected ?int $limit = null,
-        protected ?string $relation = null,
     ) {}
 
     public static function make(?string $name = null): static
@@ -38,13 +39,6 @@ class Text
     public function limit(int $limit): static
     {
         $this->limit = $limit;
-
-        return $this;
-    }
-
-    public function relation(?string $relation): static
-    {
-        $this->relation = $relation;
 
         return $this;
     }

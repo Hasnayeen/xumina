@@ -70,7 +70,7 @@ class Form implements Component
 
     public function getSubmitTo(): string
     {
-        return $this->submitTo ?? 'xumina.' . Str::kebab(Xumina::getCurrentPanel()->getName()) . (Xumina::getCurrentPanel()->getCurrentPage() instanceof AuthPage ? '.auth.' : '.') . Str::kebab(Xumina::getCurrentPanel()->getCurrentPage()::getResourceName()) . '.store';
+        return $this->submitTo ?? 'xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).(Xumina::getCurrentPanel()->getCurrentPage() instanceof AuthPage ? '.auth.' : '.').Str::kebab(Xumina::getCurrentPanel()->getCurrentPage()::getResourceName()).'.store';
     }
 
     public function redirectTo(string $route): static
@@ -82,7 +82,7 @@ class Form implements Component
 
     public function getRedirectTo(): string
     {
-        return $this->redirectTo ?? 'xumina.' . Str::kebab(Xumina::getCurrentPanel()->getName()) . '.' . Str::kebab(Xumina::getCurrentPanel()->getCurrentPage()::getResourceName()) . '.index';
+        return $this->redirectTo ?? 'xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab(Xumina::getCurrentPanel()->getCurrentPage()::getResourceName()).'.index';
     }
 
     public function submitButtonLabel(string $route): static
@@ -150,7 +150,7 @@ class Form implements Component
             'type' => ComponentType::Form->value,
             'data' => [
                 'model' => $this->model ? get_class($this->model) : Xumina::getCurrentPanel()->getCurrentPage()->getModelName(),
-                'fields' => array_map(fn($field) => $field->toArray(), $this->fields),
+                'fields' => array_map(fn ($field) => $field->toArray(), $this->fields),
                 'rules' => $this->rules,
                 'submitTo' => route($this->getSubmitTo()),
                 'submitButtonLabel' => $this->submitButtonLabel ?? 'Create',

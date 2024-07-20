@@ -1,15 +1,12 @@
 <?php
 
-namespace Hasnayeen\Xumina\Components\Table;
+namespace Hasnayeen\Xumina\Components;
 
-use Hasnayeen\Xumina\Components\Table\Concerns\HasRelation;
 use Hasnayeen\Xumina\Enums\ComponentType;
 use Illuminate\Support\Str;
 
 class Badge
 {
-    use HasRelation;
-
     private function __construct(
         protected string $id,
         protected ?string $name = null,
@@ -35,9 +32,7 @@ class Badge
             'type' => ComponentType::Badge->value,
             'data' => [
                 'name' => $this->name,
-                'variant' => 'default',
                 'type' => 'string',
-                'relation' => $this->relation,
                 'label' => $this->label,
             ],
         ];

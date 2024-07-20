@@ -9,12 +9,12 @@ class Action
 {
     private function __construct(
         protected string $id,
-        protected string | null $name = null,
-        protected string | null $label = null,
+        protected ?string $name = null,
+        protected ?string $label = null,
         protected bool $asButton = true,
         protected bool $asLink = false,
-        protected string | null $url = null,
-        protected string | null $action = null,
+        protected ?string $url = null,
+        protected ?string $action = null,
         protected bool $requireConfirmation = false,
     ) {}
 

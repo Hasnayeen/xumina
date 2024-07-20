@@ -42,16 +42,16 @@ class LayoutCommand extends Command implements PromptsForMissingInput
     public function handle()
     {
         $panel = select(
-            'Which panel you want to create the resource?',
-            Xumina::getPanels()->transform(fn(Panel $panel) => Str::studly($panel->getName())),
+            'In which panel do you want to create the resource?',
+            Xumina::getPanels()->transform(fn (Panel $panel) => Str::studly($panel->getName())),
         );
         $name = text(
             label: 'Name of the Layout?',
             placeholder: 'MyAwesomeLayout',
             required: true,
         );
-        $this->ensureDirectoryExists(app_path('Xumina/' . $panel . '/Layouts'));
-        if (File::exists(app_path('Xumina/' . $panel . '/Layouts/' . Str::studly($name)))) {
+        $this->ensureDirectoryExists(app_path('Xumina/'.$panel.'/Layouts'));
+        if (File::exists(app_path('Xumina/'.$panel.'/Layouts/'.Str::studly($name)))) {
             $overwrite = confirm(
                 label: "A layout named {$name} already exists, overwrite?",
                 default: false,
@@ -63,7 +63,7 @@ class LayoutCommand extends Command implements PromptsForMissingInput
             }
         }
 
-        File::copy(__DIR__ . '/../../stubs/app/Xumina/Layouts/Layout.php', $filePath = app_path('Xumina/' . $panel . '/Layouts/' . Str::studly($name) . '.php'));
+        File::copy(__DIR__.'/../../stubs/app/Xumina/Layouts/Layout.php', $filePath = app_path('Xumina/'.$panel.'/Layouts/'.Str::studly($name).'.php'));
         $this->replaceInFile('{{ $panel }}', $panel, $filePath);
         $this->replaceInFile('{{ $name }}', Str::studly($name), $filePath);
         $this->components->info(sprintf('%s [%s] created successfully.', 'Layout', $filePath));

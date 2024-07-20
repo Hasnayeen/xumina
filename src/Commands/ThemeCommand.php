@@ -43,15 +43,15 @@ class ThemeCommand extends Command implements PromptsForMissingInput
     {
         $panel = select(
             'In which panel do you want to create the theme?',
-            Xumina::getPanels()->transform(fn(Panel $panel) => Str::studly($panel->getName())),
+            Xumina::getPanels()->transform(fn (Panel $panel) => Str::studly($panel->getName())),
         );
         $name = text(
             label: 'Name of the Theme?',
             placeholder: 'MyAwesomeTheme',
             required: true,
         );
-        $this->ensureDirectoryExists(app_path('Xumina/' . $panel . '/Themes'));
-        if (File::exists(app_path('Xumina/' . $panel . '/Themes/' . Str::studly($name)))) {
+        $this->ensureDirectoryExists(app_path('Xumina/'.$panel.'/Themes'));
+        if (File::exists(app_path('Xumina/'.$panel.'/Themes/'.Str::studly($name)))) {
             $overwrite = confirm(
                 label: "A theme named {$name} already exists, overwrite?",
                 default: false,
@@ -63,7 +63,7 @@ class ThemeCommand extends Command implements PromptsForMissingInput
             }
         }
 
-        File::copy(__DIR__ . '/../../stubs/app/Xumina/Themes/Theme.php', $filePath = app_path('Xumina/' . $panel . '/Themes/' . Str::studly($name) . '.php'));
+        File::copy(__DIR__.'/../../stubs/app/Xumina/Themes/Theme.php', $filePath = app_path('Xumina/'.$panel.'/Themes/'.Str::studly($name).'.php'));
         $this->replaceInFile('{{ $panel }}', $panel, $filePath);
         $this->replaceInFile('{{ $name }}', Str::studly($name), $filePath);
         $this->components->info(sprintf('%s [%s] created successfully.', 'Theme', $filePath));

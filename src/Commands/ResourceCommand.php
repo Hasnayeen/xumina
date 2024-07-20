@@ -44,7 +44,7 @@ class ResourceCommand extends Command implements PromptsForMissingInput
     public function handle()
     {
         $panel = select(
-            'Which panel you want to create the resource?',
+            'In which panel do you want to create the resource?',
             Xumina::getPanels()->transform(fn (Panel $panel) => Str::studly($panel->getName())),
         );
 

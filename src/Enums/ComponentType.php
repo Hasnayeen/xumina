@@ -5,6 +5,7 @@ namespace Hasnayeen\Xumina\Enums;
 enum ComponentType: string
 {
     case Action = 'Action';
+    case Badge = 'Badge';
     case Form = 'Form';
     case Section = 'Section';
     case Field = 'Field';

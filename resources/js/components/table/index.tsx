@@ -11,7 +11,7 @@ import { get } from 'lodash'
 interface TableProps {
   id: string,
   columns: [],
-  tabelSpec: {},
+  modelSpec: {},
   model: string,
   actions: Action[],
   globalSort: boolean,
@@ -20,8 +20,8 @@ interface TableProps {
   pageSizeOptions?: (number | string)[],
 }
 
-export default function Table ({ id, columns, model, tabelSpec, actions, globalSort = false, globalSearch, pagination, pageSizeOptions }: PropsWithChildren<TableProps>) {
-  type Model = typeof tabelSpec
+export default function Table ({ id, columns, model, modelSpec, actions, globalSort = false, globalSearch, pagination, pageSizeOptions }: PropsWithChildren<TableProps>) {
+  type Model = typeof modelSpec
 
   const dataQuery = () => {
     return useQuery({

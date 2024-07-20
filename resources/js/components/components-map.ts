@@ -3,6 +3,7 @@ import { Card } from "./ui/card"
 import Form from "./form"
 import Table from "./table"
 import Section from "./ui/section"
+import Badge from "./badge"
 
 type ComponentList =
   | 'Button'
@@ -10,6 +11,7 @@ type ComponentList =
   | 'Card'
   | 'Table'
   | 'Section'
+  | 'Badge'
 
 export interface Component {
   id: string;
@@ -27,4 +29,5 @@ export const Components = {
   Card,
   Table,
   Section,
+  Badge,
 }

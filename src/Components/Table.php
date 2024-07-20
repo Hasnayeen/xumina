@@ -97,15 +97,15 @@ class Table
             }
             [$relation, $attribute] = explode('.', $relation);
             if ($relations->isEmpty()) {
-                $relations->push($relation . ':id,' . $attribute);
+                $relations->push($relation.':id,'.$attribute);
 
                 continue;
             }
             $relations->transform(function ($item) use ($relation, $attribute) {
                 if (Str::startsWith($item, $relation)) {
-                    $item .= ',' . $attribute;
+                    $item .= ','.$attribute;
                 } else {
-                    $relations->push($relation . ':id,' . $attribute);
+                    $relations->push($relation.':id,'.$attribute);
                 }
 
                 return $item;
@@ -130,9 +130,9 @@ class Table
             'id' => $this->id,
             'type' => ComponentType::Table->value,
             'data' => [
-                'columns' => array_map(fn($column) => $column->toArray(), $this->columns),
+                'columns' => array_map(fn ($column) => $column->toArray(), $this->columns),
                 'model' => $this->model ? get_class($this->model) : Xumina::getCurrentPanel()->getCurrentPage()->getModelName(),
-                'tableSpec' => array_reduce($this->columns, function ($carry, $item) {
+                'modelSpec' => array_reduce($this->columns, function ($carry, $item) {
                     $carry[$item->toArray()['data']['name']] = $item->toArray()['data']['type'];
 
                     return $carry;
@@ -143,8 +143,11 @@ class Table
                 },
                 'pageSizeOptions' => $this->pageSizeOptions,
                 'globalSort' => $this->sortable,
-                'globalSearch' => $this->searchable && Arr::first($this->columns, fn($column) => $column->toArray()['data']['searchable']),
-                'actions' => array_map(fn($action) => $action->toArray(), $this->actions),
+                'globalSearch' => $this->searchable && Arr::first(
+                    $this->columns,
+                    fn ($column) => array_key_exists('searchable', $column->toArray()['data']) && $column->toArray()['data']['searchable']
+                ),
+                'actions' => array_map(fn ($action) => $action->toArray(), $this->actions),
             ],
         ];
     }
