@@ -4,16 +4,16 @@ namespace App\Xumina\{{ $panel }}\Resources;
 
 use Hasnayeen\Xumina\Resource;
 
-class {{ $model }} extends Resource
+class {{ $name }} extends Resource
 {
     public static function getPanelName(): string
     {
         return '{{ $panel }}';
     }
 
-    public static function getResourceName(): string
+    public static function getModelName(): string
     {
-        return '{{ $name }}';
+        return '{{ $modelFqcn }}';
     }
 
     public static function getNavigationLabel(): string

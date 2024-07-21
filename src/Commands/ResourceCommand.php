@@ -66,19 +66,19 @@ class ResourceCommand extends Command implements PromptsForMissingInput
                 return 1;
             }
         }
-        $this->createResource($panel, $model, $name);
+        $this->createResource($panel, $fqcn, $model, $name);
         $this->createResourcePages($panel, $fqcn, $model, $name);
         $this->createControllers($panel, $fqcn, $model, $name);
         $this->createReactPages($panel, $name);
     }
 
-    protected function createResource(string $panel, string $model, string $name): void
+    protected function createResource(string $panel, string $fqcn, string $model, string $name): void
     {
         $this->ensureDirectoryExists(app_path('Xumina/'.Str::studly($panel).'/Resources'));
-        File::copy(__DIR__.'/../../stubs/app/Xumina/Resources/Resource.php', $filePath = app_path('Xumina/'.$panel.'/Resources/'.$model.'.php'));
+        File::copy(__DIR__.'/../../stubs/app/Xumina/Resources/Resource.php', $filePath = app_path('Xumina/'.$panel.'/Resources/'.$name.'.php'));
         $this->replaceInFile('{{ $panel }}', $panel, $filePath);
         $this->replaceInFile('{{ $name }}', $name, $filePath);
-        $this->replaceInFile('{{ $model }}', $model, $filePath);
+        $this->replaceInFile('{{ $modelFqcn }}', $fqcn, $filePath);
         $this->replaceInFile('{{ $modelHeadline }}', Str::headline($model), $filePath);
         $this->components->info(sprintf('%s [%s] created successfully.', 'Resource', $filePath));
     }
@@ -86,13 +86,15 @@ class ResourceCommand extends Command implements PromptsForMissingInput
     protected function createResourcePages(string $panel, string $fqcn, string $model, string $name): void
     {
         $this->ensureDirectoryExists(app_path('Xumina/'.Str::studly($panel).'/Pages/'.$name));
-        $createPageCallback = function ($template) use ($panel, $name, $model, $fqcn) {
+        $resourceFqcn = 'App\\Xumina\\'.Str::studly($panel).'\\'.Str::studly($name);
+        $createPageCallback = function ($template) use ($panel, $name, $model, $fqcn, $resourceFqcn) {
             File::copy(
                 __DIR__.'/../../stubs/app/Xumina/Pages/'.$template.'Page.php',
                 $filePath = app_path('Xumina/'.$panel.'/Pages/'.$name.'/'.$template.$model.'.php')
             );
             $this->replaceInFile('{{ $panel }}', $panel, $filePath);
             $this->replaceInFile('{{ $resource }}', $name, $filePath);
+            $this->replaceInFile('{{ $resourceFqcn }}', $resourceFqcn, $filePath);
             $this->replaceInFile('{{ $modelFqcn }}', $fqcn, $filePath);
             $this->replaceInFile('{{ $model }}', $model, $filePath);
             $this->replaceInFile('{{ $resourceKebab }}', Str::kebab($name), $filePath);

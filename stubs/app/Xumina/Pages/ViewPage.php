@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 class View{{ $model }} extends ViewPage
 {
     protected static string | null $model = {{ $model }}::class;
-    protected static string | null $resource = {{ $resourceClass }}::class;
+    protected static string | null $resource = {{ $resource }}::class;
     protected static string | null $title = 'View {{ $model }}';
 
     public function outline(): array
