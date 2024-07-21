@@ -11,6 +11,11 @@ class {{ $name }} extends Resource
         return '{{ $panel }}';
     }
 
+    public static function getResourceName(): string
+    {
+        return '{{ $name }}';
+    }
+
     public static function getModelName(): string
     {
         return '{{ $modelFqcn }}';

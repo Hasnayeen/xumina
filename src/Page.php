@@ -127,7 +127,7 @@ abstract class Page
 
     public static function getPanelName(): string
     {
-        return static::$panel;
+        return static::$panel ?? (static::$resource ? static::$resource::getPanelName() : null);
     }
 
     public static function getResourceName(): ?string

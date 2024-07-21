@@ -55,7 +55,7 @@ export default function ActionContainer ({ actions }: { actions: Action[] }) {
     <>
       {actions.map(({ id, data }) => (
         <div key={id} className="hidden items-center gap-2 md:ml-auto md:flex">
-          {data.requireConfirmation ? (
+          {data.requireConfirmation && (
             <Button
               variant={(data.variant as ButtonVariant) ?? (data.asLink ? "link" : "default")}
               size={data.size ?? "default"}
@@ -63,7 +63,8 @@ export default function ActionContainer ({ actions }: { actions: Action[] }) {
             >
               {data.label}
             </Button>
-          ) : (
+          )}
+          {data.url && (
             <Link
               href={data.url}
               className={cn(
