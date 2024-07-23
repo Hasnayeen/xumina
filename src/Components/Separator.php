@@ -1,12 +1,11 @@
 <?php
 
-namespace Hasnayeen\Xumina\Components\Block;
+namespace Hasnayeen\Xumina\Components;
 
 use Hasnayeen\Xumina\Enums\ComponentType;
-use Hasnayeen\Xumina\Facades\Xumina;
 use Illuminate\Support\Str;
 
-class Breadcrumb
+class Separator
 {
     private function __construct(
         protected string $id,
@@ -21,10 +20,8 @@ class Breadcrumb
     {
         return [
             'id' => $this->id,
-            'type' => ComponentType::Breadcrumb->value,
-            'data' => [
-                'logo' => Xumina::getCurrentPanel()->getLogo(),
-            ],
+            'type' => ComponentType::Separator->value,
+            'data' => [],
         ];
     }
 }

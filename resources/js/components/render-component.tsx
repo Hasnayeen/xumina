@@ -1,14 +1,14 @@
 import React from 'react';
-import { Blocks, Block } from '../blocks-map';
+import { Components, Component } from './components-map';
 
-export function renderBlock (data?: Block) {
+export function renderComponent (data?: Component): React.ReactNode {
   if (!data) return null;
 
-  function createComponent (item: Block): React.ReactNode {
+  function createComponent (item: Component): React.ReactNode {
     const { data, type, id } = item;
     const { items, embeddedView, ...rest } = data;
     return React.createElement(
-      Blocks[type] as any,
+      Components[type] as any,
       {
         ...rest,
         id,
@@ -21,8 +21,8 @@ export function renderBlock (data?: Block) {
   }
 
   function renderer (
-    config: Block | null,
-  ) {
+    config: Component | null,
+  ): React.ReactNode {
     if (!config) return null;
 
     return createComponent(config);

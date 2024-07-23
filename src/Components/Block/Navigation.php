@@ -6,14 +6,13 @@ use Hasnayeen\Xumina\Components\Concerns\HasCssClass;
 use Hasnayeen\Xumina\Enums\ComponentType;
 use Illuminate\Support\Str;
 
-class Container
+class Navigation
 {
     use HasCssClass;
 
     private function __construct(
         protected string $id,
-        protected string $tag = 'div',
-        protected array $items = [],
+        protected string $name = 'primary',
     ) {}
 
     public static function make(): static
@@ -21,16 +20,9 @@ class Container
         return new self(Str::ulid());
     }
 
-    public function tag(string $tag): static
+    public function name(string $name): static
     {
-        $this->tag = $tag;
-
-        return $this;
-    }
-
-    public function items(array $items): static
-    {
-        $this->items = $items;
+        $this->name = $name;
 
         return $this;
     }
@@ -39,11 +31,10 @@ class Container
     {
         return [
             'id' => $this->id,
-            'type' => ComponentType::Container->value,
+            'type' => ComponentType::Navigation->value,
             'data' => [
-                'tag' => $this->tag,
+                'name' => $this->name,
                 'className' => $this->class,
-                'items' => array_map(fn($item) => $item->toArray(), $this->items),
             ],
         ];
     }

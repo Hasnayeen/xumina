@@ -3,10 +3,9 @@
 namespace Hasnayeen\Xumina\Components\Block;
 
 use Hasnayeen\Xumina\Enums\ComponentType;
-use Hasnayeen\Xumina\Facades\Xumina;
 use Illuminate\Support\Str;
 
-class Breadcrumb
+class Search
 {
     private function __construct(
         protected string $id,
@@ -21,10 +20,8 @@ class Breadcrumb
     {
         return [
             'id' => $this->id,
-            'type' => ComponentType::Breadcrumb->value,
-            'data' => [
-                'logo' => Xumina::getCurrentPanel()->getLogo(),
-            ],
+            'type' => ComponentType::Search->value,
+            'data' => []
         ];
     }
 }

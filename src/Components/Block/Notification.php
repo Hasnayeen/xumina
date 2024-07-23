@@ -2,12 +2,14 @@
 
 namespace Hasnayeen\Xumina\Components\Block;
 
+use Hasnayeen\Xumina\Components\Concerns\HasTrigger;
 use Hasnayeen\Xumina\Enums\ComponentType;
-use Hasnayeen\Xumina\Facades\Xumina;
 use Illuminate\Support\Str;
 
-class Breadcrumb
+class Notification
 {
+    use HasTrigger;
+
     private function __construct(
         protected string $id,
     ) {}
@@ -21,9 +23,11 @@ class Breadcrumb
     {
         return [
             'id' => $this->id,
-            'type' => ComponentType::Breadcrumb->value,
+            'type' => ComponentType::Notification->value,
             'data' => [
-                'logo' => Xumina::getCurrentPanel()->getLogo(),
+                'trigger' => $this->trigger,
+                'triggerVariant' => $this->triggerVariant,
+                'triggerSize' => $this->triggerSize,
             ],
         ];
     }

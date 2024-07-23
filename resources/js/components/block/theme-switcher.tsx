@@ -9,13 +9,19 @@ import {
 } from '@/xumina/components/ui/dropdown-menu';
 import { useTheme } from '@/xumina/components/theme-provider';
 
-export const ThemeSwitcher: React.FC = () => {
+interface ThemeSwithcerProp {
+  trigger: boolean,
+  triggerVariant: "link" | "default" | "outline" | "secondary" | "destructive" | "ghost",
+  triggerSize: "default" | "sm" | "lg" | "icon",
+}
+
+export default function ThemeSwitcher ({ trigger, triggerVariant, triggerSize }: ThemeSwithcerProp) {
   const { setTheme } = useTheme();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant={triggerVariant} size={triggerSize}>
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Toggle theme</span>

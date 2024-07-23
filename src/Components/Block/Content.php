@@ -2,7 +2,7 @@
 
 namespace Hasnayeen\Xumina\Components\Block;
 
-use Hasnayeen\Xumina\Enums\BlockType;
+use Hasnayeen\Xumina\Enums\ComponentType;
 use Illuminate\Support\Str;
 
 class Content
@@ -20,7 +20,7 @@ class Content
     {
         return [
             'id' => $this->id,
-            'type' => BlockType::Content->value,
+            'type' => ComponentType::Content->value,
             'data' => [
             ],
         ];

@@ -3,13 +3,19 @@ import { Button } from "../ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { Bell } from "lucide-react";
 
-export default function Notification () {
+interface NotificationProp {
+  trigger: boolean,
+  triggerVariant: "link" | "default" | "outline" | "secondary" | "destructive" | "ghost",
+  triggerSize: "default" | "sm" | "lg" | "icon",
+}
+
+export default function Notification ({ trigger, triggerVariant, triggerSize }: NotificationProp) {
   const [open, setOpen] = useState(false);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
+        <Button variant={triggerVariant} size={triggerSize}>
           <Bell className="h-4 w-4" />
           <span className="sr-only">Toggle notifications</span>
         </Button>

@@ -11,6 +11,7 @@ class Action
         protected string $id,
         protected ?string $name = null,
         protected ?string $label = null,
+        protected ?string $icon = null,
         protected bool $asButton = true,
         protected bool $asLink = false,
         protected ?string $url = null,
@@ -26,6 +27,13 @@ class Action
     public function label(string $label): static
     {
         $this->label = $label;
+
+        return $this;
+    }
+
+    public function icon(string $icon): static
+    {
+        $this->icon = $icon;
 
         return $this;
     }
@@ -74,6 +82,7 @@ class Action
             'type' => ComponentType::Action->value,
             'data' => [
                 'label' => $this->label ?? Str::headline($this->name) ?? null,
+                'icon' => $this->icon ? Icon::get($this->icon) : null,
                 'url' => $this->url,
                 'asButton' => $this->asButton,
                 'asLink' => $this->asLink,

@@ -1,7 +1,9 @@
-export default function Container ({ className, children }: { className: string, children: [] }) {
+export default function Container ({ tag = 'div', className, children }: { tag: string, className: string, children: [] }) {
+  const Comp: any = tag;
+
   return (
-    <div className={className}>
+    <Comp className={className} >
       {children}
-    </div>
+    </Comp>
   )
 }

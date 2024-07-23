@@ -33,7 +33,7 @@ class SyncCommand extends Command
     public function handle()
     {
         if ((new Filesystem)->isDirectory(resource_path('js/xumina'))) {
-            $overwrite = confirm('This will replcae existing files, are you sure?', true);
+            $overwrite = confirm('This will replace existing files, are you sure?', true);
             if (! $overwrite) {
                 $this->components->error('Aborting!');
 
