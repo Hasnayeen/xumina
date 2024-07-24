@@ -34,7 +34,8 @@ class Panel
         protected string $authLayout = AuthLayout::class,
         protected ?string $logoPath = null,
         protected ?string $logoText = null,
-        protected ?string $theme = DefaultTheme::class,
+        protected string $theme = DefaultTheme::class,
+        protected ?Closure $themeCustomization = null,
         protected array $navigations = [],
         protected ?Closure $authorizationCallback = null,
     ) {}
@@ -171,15 +172,20 @@ class Panel
         ];
     }
 
-    public function theme(string|ThemesEnum $theme): static
+    public function theme(string|ThemesEnum $theme, ?Closure $callback = null): static
     {
         $this->theme = $theme instanceof ThemesEnum ? $theme->value : $theme;
+        $this->themeCustomization = $callback;
 
         return $this;
     }
 
     public function getTheme(): Theme
     {
+        if ($this->themeCustomization) {
+            return call_user_func($this->themeCustomization, new $this->theme);
+        }
+
         return new $this->theme;
     }
 
