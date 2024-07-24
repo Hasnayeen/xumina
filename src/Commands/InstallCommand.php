@@ -437,7 +437,7 @@ class InstallCommand extends Command implements PromptsForMissingInput
      */
     protected function phpBinary()
     {
-        return (new PhpExecutableFinder())->find(false) ?: 'php';
+        return (new PhpExecutableFinder)->find(false) ?: 'php';
     }
 
     /**
