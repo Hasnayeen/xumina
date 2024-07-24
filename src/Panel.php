@@ -12,7 +12,9 @@ use Hasnayeen\Xumina\Layouts\AuthLayout;
 use Hasnayeen\Xumina\Layouts\DefaultLayout;
 use Hasnayeen\Xumina\Pages\AuthPage;
 use Hasnayeen\Xumina\Pages\CreatePage;
+use Hasnayeen\Xumina\Pages\EditPage;
 use Hasnayeen\Xumina\Pages\ListPage;
+use Hasnayeen\Xumina\Pages\ViewPage;
 use Hasnayeen\Xumina\Themes\DefaultTheme;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -97,7 +99,7 @@ class Panel
         return collect(
             Discover::in($this->getPath())
                 ->classes()
-                ->extending(Page::class, AuthPage::class, CreatePage::class, ListPage::class)
+                ->extending(Page::class, AuthPage::class, CreatePage::class, ListPage::class, EditPage::class, ViewPage::class)
                 ->get()
         );
     }

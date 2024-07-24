@@ -86,7 +86,7 @@ class ResourceCommand extends Command implements PromptsForMissingInput
     protected function createResourcePages(string $panel, string $fqcn, string $model, string $name): void
     {
         $this->ensureDirectoryExists(app_path('Xumina/'.Str::studly($panel).'/Pages/'.$name));
-        $resourceFqcn = 'App\\Xumina\\'.Str::studly($panel).'\\'.Str::studly($name);
+        $resourceFqcn = 'App\\Xumina\\'.Str::studly($panel).'\\Resources\\'.Str::studly($name);
         $createPageCallback = function ($template) use ($panel, $name, $model, $fqcn, $resourceFqcn) {
             File::copy(
                 __DIR__.'/../../stubs/app/Xumina/Pages/'.$template.'Page.php',
@@ -114,6 +114,7 @@ class ResourceCommand extends Command implements PromptsForMissingInput
         $this->replaceInFile('{{ $panel }}', $panel, $filePath);
         $this->replaceInFile('{{ $resource }}', $name, $filePath);
         $this->replaceInFile('{{ $model }}', $model, $filePath);
+        $this->replaceInFile('{{ $modelVar }}', Str::camel($model), $filePath);
         $this->replaceInFile('{{ $modelFqcn }}', $fqcn, $filePath);
         $this->replaceInFile('{{ $panelKebab }}', Str::kebab($panel), $filePath);
         $this->replaceInFile('{{ $modelKebab }}', Str::kebab($model), $filePath);
@@ -129,7 +130,7 @@ class ResourceCommand extends Command implements PromptsForMissingInput
         $this->components->info(sprintf('%s [%s] created successfully.', 'React component', $filePath));
         File::copy(__DIR__.'/../../stubs/ts/resources/js/pages/edit.tsx', $filePath = resource_path('js/pages/'.Str::kebab($panel).'/'.Str::kebab($name).'/edit.tsx'));
         $this->components->info(sprintf('%s [%s] created successfully.', 'React component', $filePath));
-        File::copy(__DIR__.'/../../stubs/ts/resources/js/pages/view.tsx', $filePath = resource_path('js/pages/'.Str::kebab($panel).'/'.Str::kebab($name).'/view.tsx'));
+        File::copy(__DIR__.'/../../stubs/ts/resources/js/pages/show.tsx', $filePath = resource_path('js/pages/'.Str::kebab($panel).'/'.Str::kebab($name).'/show.tsx'));
         $this->components->info(sprintf('%s [%s] created successfully.', 'React component', $filePath));
     }
 }

@@ -24,7 +24,7 @@ class ThemeSwitcher
     {
         return [
             Action::make('logout')
-                ->icon('user')
+                ->icon('user'),
         ];
     }
 
@@ -34,7 +34,7 @@ class ThemeSwitcher
             'id' => $this->id,
             'type' => ComponentType::ThemeSwitcher->value,
             'data' => [
-                'content' => array_map(fn($item) => $item->toArray(), $this->items()),
+                'content' => array_map(fn ($item) => $item->toArray(), $this->items()),
                 'trigger' => $this->trigger,
                 'triggerVariant' => $this->triggerVariant,
                 'triggerSize' => $this->triggerSize,

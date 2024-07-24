@@ -29,14 +29,4 @@ class View{{ $model }} extends ViewPage
                 ->name('{{ $resourceKebab }}.destroy'),
         ];
     }
-
-    public static function getNavigationLabel(): string
-    {
-        return 'View ' . static::getModelName();
-    }
-
-    public static function getNavigationRoute(): string
-    {
-        return route('xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab(static::getResourceName()).'{'.Str::kebab(static::getModelName()).'}.show');
-    }
 }

@@ -7,8 +7,10 @@ use Exception;
 trait HasTrigger
 {
     protected bool $trigger = true;
-    protected string $triggerVariant = "default";
-    protected string $triggerSize = "default";
+
+    protected string $triggerVariant = 'default';
+
+    protected string $triggerSize = 'default';
 
     public function trigger(bool $condition): static
     {

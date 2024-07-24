@@ -6,7 +6,7 @@ export function renderComponent (data?: Component): React.ReactNode {
 
   function createComponent (item: Component): React.ReactNode {
     const { data, type, id } = item;
-    const { items, embeddedView, ...rest } = data;
+    const { items, ...rest } = data;
     return React.createElement(
       Components[type] as any,
       {
@@ -14,18 +14,16 @@ export function renderComponent (data?: Component): React.ReactNode {
         id,
         key: id,
       },
-      Array.isArray(items)
-        ? items.map(renderer)
-        : renderer(embeddedView ?? null),
+      Array.isArray(items) && items.map(renderer)
     );
   }
 
   function renderer (
-    config: Component | null,
+    item: Component | null,
   ): React.ReactNode {
-    if (!config) return null;
+    if (!item) return null;
 
-    return createComponent(config);
+    return createComponent(item);
   }
 
   return renderer(data);

@@ -38,9 +38,19 @@ class EditPage extends Page
         ];
     }
 
+    public static function getNavigationLabel(): string
+    {
+        return 'Edit'.static::getModelName();
+    }
+
     public static function getNavigationRoute(): string
     {
-        return route(static::getNavigationRouteName());
+        return '';
+    }
+
+    public static function getNavigationRouteName(): string
+    {
+        return 'xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab(static::getResourceName()).'.edit';
     }
 
     public static function getNavigationOrder(): int

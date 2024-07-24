@@ -43,7 +43,7 @@ class Container
             'data' => [
                 'tag' => $this->tag,
                 'className' => $this->class,
-                'items' => array_map(fn($item) => $item->toArray(), $this->items),
+                'items' => array_map(fn ($item) => $item->toArray(), $this->items),
             ],
         ];
     }

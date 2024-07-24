@@ -4,7 +4,9 @@ namespace App\Xumina\{{ $panel }}\Controllers;
 
 use {{ $modelFqcn }};
 use App\Xumina\{{ $panel }}\Pages\{{ $resource }}\Create{{ $model }};
+use App\Xumina\{{ $panel }}\Pages\{{ $resource }}\Edit{{ $model }};
 use App\Xumina\{{ $panel }}\Pages\{{ $resource }}\List{{ $model }};
+use App\Xumina\{{ $panel }}\Pages\{{ $resource }}\View{{ $model }};
 use Hasnayeen\Xumina\Xumina;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,6 +16,15 @@ class {{ $model }}Controller
 {
     public function index(Request $request, List{{ $model }} $page): Response
     {
+        return Inertia::render(Xumina::getInertiaPath($request->route()->getName()), [
+            'data' => $page->data(),
+        ]);
+    }
+
+    public function show(Request $request, {{ $model }} ${{ $modelVar }},  View{{ $model }} $page): Response
+    {
+        $page->record(${{ $modelVar }});
+
         return Inertia::render(Xumina::getInertiaPath($request->route()->getName()), [
             'data' => $page->data(),
         ]);
@@ -31,22 +42,22 @@ class {{ $model }}Controller
         return $page->save($request->all(), '{{ $modelKebab }}');
     }
 
-    public function edit(Request $request, {{ $model }} $record, Edit{{ $model }} $page)
+    public function edit(Request $request, {{ $model }} ${{ $modelVar }}, Edit{{ $model }} $page)
     {
-        $page->record($record);
+        $page->record(${{ $modelVar }});
 
         return Inertia::render(Xumina::getInertiaPath($request->route()->getName()), [
             'data' => $page->data(),
         ]);
     }
 
-    public function update(Request $request, {{ $model }} $record, Edit{{ $model }} $page)
+    public function update(Request $request, {{ $model }} ${{ $modelVar }}, Edit{{ $model }} $page)
     {
-        return $page->save($request->all(), '{{ $modelKebab }}', $record);
+        return $page->save($request->all(), '{{ $modelKebab }}', ${{ $modelVar }});
     }
 
-    public function destroy({{ $model }} $record, View{{ $model }} $page)
+    public function destroy({{ $model }} ${{ $modelVar }}, View{{ $model }} $page)
     {
-        return $page->delete($record);
+        return $page->delete(${{ $modelVar }});
     }
 }

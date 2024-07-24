@@ -42,7 +42,7 @@ class TopBar
             'data' => [
                 'tag' => 'header',
                 'className' => 'flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6',
-                'items' => array_map(fn($item) => $item->toArray(), $this->items()),
+                'items' => array_map(fn ($item) => $item->toArray(), $this->items()),
             ],
         ];
     }

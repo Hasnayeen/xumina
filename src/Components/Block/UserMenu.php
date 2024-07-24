@@ -31,7 +31,7 @@ class UserMenu
             Separator::make(),
             Action::make('logout')
                 ->icon('user')
-                ->url(route('xumina.' . Str::kebab(Xumina::getCurrentPanel()->getName()) . '.auth.logout')),
+                ->url(route('xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.auth.logout')),
         ];
     }
 
@@ -41,7 +41,7 @@ class UserMenu
             'id' => $this->id,
             'type' => ComponentType::UserMenu->value,
             'data' => [
-                'content' => array_map(fn($item) => $item->toArray(), $this->items()),
+                'content' => array_map(fn ($item) => $item->toArray(), $this->items()),
                 'trigger' => $this->trigger,
                 'triggerVariant' => $this->triggerVariant,
                 'triggerSize' => $this->triggerSize,

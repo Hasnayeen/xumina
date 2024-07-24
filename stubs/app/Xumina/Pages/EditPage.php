@@ -6,7 +6,7 @@ use {{ $modelFqcn }};
 use {{ $resourceFqcn }};
 use App\Xumina\{{ $panel }}\Controllers\{{ $model }}Controller;
 use Hasnayeen\Xumina\Components\Form;
-use Hasnayeen\Xumina\Pages\CreatePage;
+use Hasnayeen\Xumina\Pages\EditPage;
 use Illuminate\Support\Facades\Route;
 
 class Edit{{ $model }} extends EditPage
@@ -31,15 +31,5 @@ class Edit{{ $model }} extends EditPage
             Route::put('{{ $resourceKebab }}/{{{ $modelKebab }}}', [{{ $model }}Controller::class, 'update'])
                 ->name('{{ $resourceKebab }}.update'),
         ];
-    }
-
-    public static function getNavigationLabel(): string
-    {
-        return 'Edit {{ $model }}';
-    }
-
-    public static function getNavigationRoute(): string
-    {
-        return route('xumina.{{ $panelKebab }}.{{ $resourceKebab }}.edit', ['{{ $modelKebab }}' => $this->getRecord()]);
     }
 }

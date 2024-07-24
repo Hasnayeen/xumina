@@ -35,9 +35,9 @@ class SideBar
                         ->class('flex-1')
                         ->items([
                             Navigation::make()
-                                ->class('grid items-start px-2 text-sm font-medium')
-                        ])
-                ])
+                                ->class('grid items-start px-2 text-sm font-medium'),
+                        ]),
+                ]),
         ];
     }
 
@@ -49,7 +49,7 @@ class SideBar
             'data' => [
                 'tag' => 'aside',
                 'className' => 'inset-y fixed left-0 z-20 h-full flex-col border-r w-64 hidden md:flex bg-muted/40',
-                'items' => array_map(fn($item) => $item->toArray(), $this->items()),
+                'items' => array_map(fn ($item) => $item->toArray(), $this->items()),
             ],
         ];
     }

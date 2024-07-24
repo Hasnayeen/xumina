@@ -21,7 +21,7 @@ class Search
         return [
             'id' => $this->id,
             'type' => ComponentType::Search->value,
-            'data' => []
+            'data' => [],
         ];
     }
 }
