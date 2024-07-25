@@ -13,10 +13,11 @@ class Action
         protected ?string $label = null,
         protected ?string $icon = null,
         protected bool $asButton = true,
-        protected bool $asLink = false,
         protected ?string $url = null,
         protected ?string $action = null,
-        protected bool $requireConfirmation = false,
+        protected ?string $actionType = null,
+        protected ?array $confirmationDialog = null,
+        protected ?array $dialog = null,
     ) {}
 
     public static function make(?string $name = null): static
@@ -38,18 +39,9 @@ class Action
         return $this;
     }
 
-    public function asButton(bool $condition): static
+    public function asButton(bool $condition = true): static
     {
         $this->asButton = $condition;
-        $this->asLink = ! $condition;
-
-        return $this;
-    }
-
-    public function asLink(bool $condition): static
-    {
-        $this->asLink = $condition;
-        $this->asButton = ! $condition;
 
         return $this;
     }
@@ -57,20 +49,109 @@ class Action
     public function url(string $url): static
     {
         $this->url = $url;
+        $this->actionType = 'url';
 
         return $this;
     }
 
-    public function action(string $action): static
+    public function confirmationDialog(string $title, string $description, string $confirmLabel = 'Confirm', string $cancelLabel = 'Cancel'): static
     {
-        $this->action = $action;
+        $this->confirmationDialog = [
+            'title' => $title,
+            'description' => $description,
+            'confirmLabel' => $confirmLabel,
+            'cancelLabel' => $cancelLabel,
+        ];
+        $this->actionType = 'confirmationDialog';
 
         return $this;
     }
 
-    public function requireConfirmation(bool $condition = true): static
+    public function dialog(string $title, ?string $description = null, array $content = [], array $footer = []): static
     {
-        $this->requireConfirmation = $condition;
+        $this->dialog = [
+            'title' => $title,
+            'description' => $description,
+            'content' => $content,
+            'footer' => $footer,
+        ];
+        $this->actionType = 'dialog';
+
+        return $this;
+    }
+
+    public function dialogTitle(string $title): static
+    {
+        if ($this->dialog) {
+            $this->dialog['title'] = $title;
+        }
+
+        return $this;
+    }
+
+    public function dialogDescription(string $description): static
+    {
+        if ($this->dialog) {
+            $this->dialog['description'] = $description;
+        }
+
+        return $this;
+    }
+
+    public function dialogContent(array $content): static
+    {
+        if ($this->dialog) {
+            $this->dialog['content'] = $content;
+        }
+
+        return $this;
+    }
+
+    public function dialogFooter(array $footer): static
+    {
+        if ($this->dialog) {
+            $this->dialog['footer'] = $footer;
+        }
+
+        return $this;
+    }
+
+    public function submitButton(string $label = 'Submit', ?string $action = null): static
+    {
+        if ($this->dialog) {
+            $this->dialog['footer'][] = [
+                'type' => 'Button',
+                'data' => [
+                    'label' => $label,
+                    'variant' => 'primary',
+                    'action' => $action,
+                ],
+            ];
+        }
+
+        return $this;
+    }
+
+    public function cancelButton(string $label = 'Cancel', ?string $action = null): static
+    {
+        if ($this->dialog) {
+            $this->dialog['footer'][] = [
+                'type' => 'Button',
+                'data' => [
+                    'label' => $label,
+                    'variant' => 'secondary',
+                    'action' => $action,
+                ],
+            ];
+        }
+
+        return $this;
+    }
+
+    public function emitEvent(string $eventName): static
+    {
+        $this->action = $eventName;
+        $this->actionType = 'emitEvent';
 
         return $this;
     }
@@ -84,10 +165,11 @@ class Action
                 'label' => $this->label ?? Str::headline($this->name) ?? null,
                 'icon' => $this->icon ? Icon::get($this->icon) : null,
                 'url' => $this->url,
-                'asButton' => $this->asButton,
-                'asLink' => $this->asLink,
+                'asButton' => $this->asButton ?? (bool) $this->url,
+                'actionType' => $this->actionType,
+                'confirmationDialog' => $this->confirmationDialog,
+                'dialog' => $this->dialog,
                 'action' => $this->action,
-                'requireConfirmation' => $this->requireConfirmation,
             ],
         ];
     }

@@ -36,7 +36,7 @@ class ViewPage extends Page
 
     public static function getNavigationRouteName(): string
     {
-        return 'xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab(static::getResourceName()).'.view';
+        return 'xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab(static::getResourceName()).'.show';
     }
 
     public static function getNavigationOrder(): int
@@ -59,6 +59,7 @@ class ViewPage extends Page
         return [
             Action::make(Str::kebab('Delete '.static::getModelName()))
                 ->label('Delete')
+                ->asButton()
                 ->url(
                     route(
                         'xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab(static::getResourceName()).'.destroy',

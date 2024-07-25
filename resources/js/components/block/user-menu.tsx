@@ -41,39 +41,38 @@ export default function UserMenu ({ content, trigger, triggerVariant, triggerSiz
     const { data, type, id } = component;
     const { ...rest } = data
     if (type === 'Action') {
-      const action = data as Action
-      const handleAction = (action: Action) => {
-        if (action.action) {
-          const fn = new Function(action.action);
+      const handleAction = (action: any) => {
+        if (data.action) {
+          const fn = new Function(action);
           fn();
         }
       }
-      if (action.url) {
+      if (data.url) {
         return (
-          <DropdownMenuItem key={action.label} asChild>
-            <Link href={action.url} className="flex items-center">
-              {action.icon && (
+          <DropdownMenuItem key={data.label} asChild>
+            <Link href={data.url} className="flex items-center">
+              {data.icon && (
                 <span
-                  dangerouslySetInnerHTML={{ __html: action.icon }}
+                  dangerouslySetInnerHTML={{ __html: data.icon }}
                   aria-hidden="true"
                   className="mr-2 h-4 w-4"
                 />
               )}
-              {action.label}
+              {data.label}
             </Link>
           </DropdownMenuItem>
         );
       } else {
         return (
-          <DropdownMenuItem key={action.label} onSelect={() => handleAction(action)}>
-            {action.icon && (
+          <DropdownMenuItem key={data.label} onSelect={() => handleAction(data.action)}>
+            {data.icon && (
               <span
-                dangerouslySetInnerHTML={{ __html: action.icon }}
+                dangerouslySetInnerHTML={{ __html: data.icon }}
                 aria-hidden="true"
                 className="mr-2 h-4 w-4"
               />
             )}
-            {action.label}
+            {data.label}
           </DropdownMenuItem>
         );
       }

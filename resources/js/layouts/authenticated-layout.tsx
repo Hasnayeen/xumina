@@ -8,12 +8,12 @@ import { Component } from "../components/components-map";
 
 export default function AuthenticatedLayout ({ auth, data, ...props }: PageProps<{ auth: {}, data: {}, title: string }>) {
   const { data: layout } = useQuery<[]>({ queryKey: ['layout'] })
-  const blocks = layout?.map((component: Component): ReactNode => renderComponent(component)) ?? []
+  const components = layout?.map((component: Component): ReactNode => renderComponent(component)) ?? []
 
   return (
     <>
       <Head title={props.title} />
-      {blocks}
+      {components}
       <ToastProvider />
     </>
   )
