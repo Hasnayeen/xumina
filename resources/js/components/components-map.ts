@@ -15,6 +15,7 @@ import MobileNavigation from "./block/mobile-navigation";
 import Logo from "./block/logo";
 import Notification from "./block/notification";
 import Navigation from "./block/navigation";
+import Action from "./action";
 
 type ComponentList =
   | 'Container'
@@ -28,6 +29,7 @@ type ComponentList =
   | 'Logo'
   | 'Notification'
   | 'Navigation'
+  | 'Action'
   | 'Button'
   | 'Form'
   | 'Card'
@@ -39,7 +41,6 @@ export interface Component {
   id: string;
   type: ComponentList
   data: {
-    embeddedView?: Component
     items?: Array<Component>
     [key: string]: unknown
   }
@@ -57,6 +58,7 @@ export const Components = {
   Logo,
   Notification,
   Navigation,
+  Action,
   Button,
   Form,
   Card,

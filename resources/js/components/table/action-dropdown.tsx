@@ -4,10 +4,14 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { MoreHorizontal } from "lucide-react"
 
 export interface Action {
-  label: string;
-  icon?: string;
-  url?: string;
-  action?: string;
+  id: string | number;
+  data: {
+    label: string;
+    icon?: string;
+    url?: string;
+    action?: string;
+    requireConfirmation: boolean;
+  }
 }
 
 interface ActionDropdownProps {
@@ -16,9 +20,9 @@ interface ActionDropdownProps {
 }
 
 export default function ActionDropdown ({ actions, rowData }: ActionDropdownProps) {
-  const handleAction = (action: Action) => {
-    if (action.action) {
-      const fn = new Function('id', action.action);
+  const handleAction = (action?: string) => {
+    if (action) {
+      const fn = new Function('id', action);
       fn(rowData.id);
     }
   };
@@ -33,34 +37,48 @@ export default function ActionDropdown ({ actions, rowData }: ActionDropdownProp
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem>
-          {actions.map((action) => {
-            if (action.url) {
-              const url = action.url.replace(':id', rowData.id);
+          {actions.map(({ id, data }) => {
+            if (data.requireConfirmation) {
               return (
-                <DropdownMenuItem key={action.label} asChild>
+                <DropdownMenuItem key={id} onSelect={() => handleAction(data.action)}>
+                  {data.icon && (
+                    <span
+                      dangerouslySetInnerHTML={{ __html: data.icon }}
+                      aria-hidden="true"
+                      className="mr-2 h-4 w-4"
+                    />
+                  )}
+                  {data.label}
+                </DropdownMenuItem>
+              );
+            }
+            if (data.url) {
+              const url = data.url.replace(':id', rowData.id);
+              return (
+                <DropdownMenuItem key={data.label} asChild>
                   <Link href={url} className="flex items-center">
-                    {action.icon && (
+                    {data.icon && (
                       <span
-                        dangerouslySetInnerHTML={{ __html: action.icon }}
+                        dangerouslySetInnerHTML={{ __html: data.icon }}
                         aria-hidden="true"
                         className="mr-2 h-4 w-4"
                       />
                     )}
-                    {action.label}
+                    {data.label}
                   </Link>
                 </DropdownMenuItem>
               );
             } else {
               return (
-                <DropdownMenuItem key={action.label} onSelect={() => handleAction(action)}>
-                  {action.icon && (
+                <DropdownMenuItem key={data.label} onSelect={() => handleAction(data.action)}>
+                  {data.icon && (
                     <span
-                      dangerouslySetInnerHTML={{ __html: action.icon }}
+                      dangerouslySetInnerHTML={{ __html: data.icon }}
                       aria-hidden="true"
                       className="mr-2 h-4 w-4"
                     />
                   )}
-                  {action.label}
+                  {data.label}
                 </DropdownMenuItem>
               );
             }
