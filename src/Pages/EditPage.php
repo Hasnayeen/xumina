@@ -28,12 +28,12 @@ class EditPage extends Page
         return [
             ...parent::breadcrumb(),
             [
-                'text' => $resource = static::getResourceName(),
-                'url' => route('xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab($resource).'.index'),
+                'text' => static::getResourceName(),
+                'url' => $this->getResource()->getNavigationRoute(),
             ],
             [
                 'text' => 'Edit',
-                'url' => static::getNavigationRoute(),
+                'url' => static::getNavigationRoute($this->getRecord()),
             ],
         ];
     }
@@ -43,14 +43,23 @@ class EditPage extends Page
         return 'Edit'.static::getModelName();
     }
 
-    public static function getNavigationRoute(): string
+    public static function getNavigationRoute(mixed $record = null): string
     {
-        return '';
+        if ($record) {
+            return route(static::getNavigationRouteName(), [
+                Str::kebab(static::getModelName()) => $record,
+            ]);
+        }
+        throw new \Exception('Record is required to generate route');
     }
 
     public static function getNavigationRouteName(): string
     {
-        return 'xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab(static::getResourceName()).'.edit';
+        return 'xumina.'.
+            Str::kebab(Xumina::getCurrentPanel()->getName()).
+            '.'.
+            Str::kebab(static::getResourceName()).
+            '.edit';
     }
 
     public static function getNavigationOrder(): int

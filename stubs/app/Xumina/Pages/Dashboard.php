@@ -32,11 +32,6 @@ class Dashboard extends Page
         return "Dashboard";
     }
 
-    public static function getNavigationRoute(): string
-    {
-        return route(static::getNavigationRouteName());
-    }
-    
     public static function getNavigationRouteName(): string
     {
         return 'xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.'dashboard';

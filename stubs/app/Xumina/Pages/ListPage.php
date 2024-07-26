@@ -31,14 +31,4 @@ class List{{ $model }} extends ListPage
                 ->name('{{ $resourceKebab }}.index'),
         ];
     }
-
-    public static function getNavigationLabel(): string
-    {
-        return 'List {{ $resource }}';
-    }
-
-    public static function getNavigationRouteName(): string
-    {
-        return 'xumina.{{ $panelKebab }}.{{ $resourceKebab }}.index';
-    }
 }

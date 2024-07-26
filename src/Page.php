@@ -20,11 +20,13 @@ abstract class Page
 
     public function __construct(
         protected Content $content,
-        protected Layout $layout,
+        protected Layout $layout
     ) {
         if (! Str::contains(request()->route()->getName(), 'auth')) {
             $callback = Xumina::getCurrentPanel()->getAuthorizationCallback();
-            Gate::allowIf($callback ? call_user_func($callback, auth()->user()) : true);
+            Gate::allowIf(
+                $callback ? call_user_func($callback, auth()->user()) : true
+            );
             $this->authorizeAccess();
         }
         Inertia::share('title', static::getPageTitle());
@@ -35,7 +37,7 @@ abstract class Page
 
     abstract public static function routes(): array;
 
-    protected function authorizeAccess()
+    protected function authorizeAccess(): void
     {
         if (method_exists($this, 'authorize')) {
             Gate::allowIf($this->authorize());
@@ -62,7 +64,7 @@ abstract class Page
         }
     }
 
-    protected function mapMethodToPolicy($method)
+    protected function mapMethodToPolicy(string $method)
     {
         $map = [
             'index' => 'viewAny',
@@ -85,9 +87,9 @@ abstract class Page
         return '';
     }
 
-    public static function getNavigationRoute(): string
+    public static function getNavigationRoute(mixed $record = null): string
     {
-        return '';
+        return route(static::getNavigationRouteName());
     }
 
     public static function getNavigationRouteName(): string
@@ -112,7 +114,9 @@ abstract class Page
 
     public function layout(): array
     {
-        return $this->layout->outline(Xumina::getCurrentPanel()->getLayout()->outline());
+        return $this->layout->outline(
+            Xumina::getCurrentPanel()->getLayout()->outline()
+        );
     }
 
     public function getModel(): ?Model
@@ -127,7 +131,8 @@ abstract class Page
 
     public static function getPanelName(): string
     {
-        return static::$panel ?? (static::$resource ? static::$resource::getPanelName() : null);
+        return static::$panel ??
+            (static::$resource ? static::$resource::getPanelName() : null);
     }
 
     public static function getResourceName(): ?string
@@ -152,8 +157,10 @@ abstract class Page
     {
         return [
             [
-                'text' => $title = Xumina::getCurrentPanel()->getRootPage()::getPageTitle(),
-                'url' => route('xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab($title)),
+                'text' => Xumina::getCurrentPanel()
+                    ->getRootPage()::getPageTitle(),
+                'url' => Xumina::getCurrentPanel()
+                    ->getRootPage()::getNavigationRoute(),
             ],
         ];
     }
@@ -190,7 +197,9 @@ abstract class Page
     {
         Inertia::share(Xumina::share(request()));
 
-        $recursiveArrayIterator = function ($array) use (&$recursiveArrayIterator) {
+        $recursiveArrayIterator = function ($array) use (
+            &$recursiveArrayIterator
+        ) {
             return array_map(function ($item) use ($recursiveArrayIterator) {
                 if (is_array($item)) {
                     return $recursiveArrayIterator($item);
@@ -204,7 +213,9 @@ abstract class Page
             'layout' => $this->layout(),
             'content' => $this->content(),
             'breadcrumb' => $this->breadcrumb(),
-            'navigations' => $recursiveArrayIterator(Xumina::getCurrentPanel()->getNavigations()),
+            'navigations' => $recursiveArrayIterator(
+                Xumina::getCurrentPanel()->getNavigations()
+            ),
         ];
     }
 }

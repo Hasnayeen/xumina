@@ -27,19 +27,14 @@ class ListPage extends Page
         return [
             ...parent::breadcrumb(),
             [
-                'text' => $resource = static::getResourceName(),
-                'url' => $route = route('xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab($resource).'.index'),
+                'text' => static::getResourceName(),
+                'url' => $this->getResource()->getNavigationRoute(),
             ],
             [
                 'text' => 'List',
-                'url' => $route,
+                'url' => static::getNavigationRoute(),
             ],
         ];
-    }
-
-    public static function getNavigationRoute(): string
-    {
-        return route(static::getNavigationRouteName());
     }
 
     public static function getNavigationOrder(): int
@@ -62,7 +57,15 @@ class ListPage extends Page
         return [
             Action::make(Str::kebab('Create '.static::getModelName()))
                 ->label('Create '.static::getModelName())
-                ->url(route('xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab(static::getResourceName()).'.create')),
+                ->url(
+                    route(
+                        'xumina.'.
+                            Str::kebab(Xumina::getCurrentPanel()->getName()).
+                            '.'.
+                            Str::kebab(static::getResourceName()).
+                            '.create'
+                    )
+                ),
         ];
     }
 }

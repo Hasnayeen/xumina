@@ -47,17 +47,16 @@ class Xumina
 
     public function getCurrentPanel(): ?Panel
     {
-        return $this->currentPanel ? $this->getPanel($this->currentPanel) : null;
+        return $this->currentPanel
+            ? $this->getPanel($this->currentPanel)
+            : null;
     }
 
     public static function getInertiaPath(string $path): string
     {
         return collect(explode('.', $path))
             ->filter(fn ($item) => $item !== 'xumina')
-            ->pipe(
-                fn ($collection) => $collection
-                    ->join('/')
-            );
+            ->pipe(fn ($collection) => $collection->join('/'));
     }
 
     public function share(Request $request): array
