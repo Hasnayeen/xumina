@@ -21,12 +21,12 @@ class CreatePage extends Page
         return [
             ...parent::breadcrumb(),
             [
-                'text' => $resource = static::getResourceName(),
-                'url' => route('xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab($resource).'.index'),
+                'text' => static::getResourceName(),
+                'url' => $this->getResource()->getNavigationRoute(),
             ],
             [
                 'text' => 'Create',
-                'url' => route('xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab($resource).'.'.'create'),
+                'url' => static::getNavigationRoute(),
             ],
         ];
     }
@@ -41,14 +41,13 @@ class CreatePage extends Page
         return 'Create '.static::getResourceName();
     }
 
-    public static function getNavigationRoute(): string
-    {
-        return route(static::getNavigationRouteName());
-    }
-
     public static function getNavigationRouteName(): string
     {
-        return 'xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab(static::getResourceName()).'.create';
+        return 'xumina.'.
+            Str::kebab(Xumina::getCurrentPanel()->getName()).
+            '.'.
+            Str::kebab(static::getResourceName()).
+            '.create';
     }
 
     public static function getNavigationOrder(): int

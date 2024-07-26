@@ -32,14 +32,4 @@ class Create{{ $model }} extends CreatePage
                 ->name('{{ $resourceKebab }}.store'),
         ];
     }
-
-    public static function getNavigationLabel(): string
-    {
-        return 'Create ' . static::getResourceName();
-    }
-
-    public static function getNavigationRoute(): string
-    {
-        return route('xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab(static::getResourceName()).'.create');
-    }
 }

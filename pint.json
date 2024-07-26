@@ -1,5 +1,10 @@
 {
-    "exclude": [
-        "stubs"
-    ]
+  "preset": "laravel",
+  "rules": {
+    "new_with_parentheses": {
+      "anonymous_class": false,
+      "named_class": false
+    }
+  },
+  "exclude": ["stubs"]
 }

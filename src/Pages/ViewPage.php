@@ -19,6 +19,21 @@ class ViewPage extends Page
         return [];
     }
 
+    public function breadcrumb(): array
+    {
+        return [
+            ...parent::breadcrumb(),
+            [
+                'text' => static::getResourceName(),
+                'url' => $this->getResource()->getNavigationRoute(),
+            ],
+            [
+                'text' => 'View',
+                'url' => static::getNavigationRoute($this->getRecord()),
+            ],
+        ];
+    }
+
     public static function routes(): array
     {
         return [];
@@ -29,14 +44,23 @@ class ViewPage extends Page
         return 'View '.static::getModelName();
     }
 
-    public static function getNavigationRoute(): string
+    public static function getNavigationRoute(mixed $record = null): string
     {
-        return '';
+        if ($record) {
+            return route(static::getNavigationRouteName(), [
+                Str::kebab(static::getModelName()) => $record,
+            ]);
+        }
+        throw new \Exception('Record is required to generate route');
     }
 
     public static function getNavigationRouteName(): string
     {
-        return 'xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab(static::getResourceName()).'.show';
+        return 'xumina.'.
+            Str::kebab(Xumina::getCurrentPanel()->getName()).
+            '.'.
+            Str::kebab(static::getResourceName()).
+            '.show';
     }
 
     public static function getNavigationOrder(): int
@@ -62,8 +86,16 @@ class ViewPage extends Page
                 ->asButton()
                 ->url(
                     route(
-                        'xumina.'.Str::kebab(Xumina::getCurrentPanel()->getName()).'.'.Str::kebab(static::getResourceName()).'.destroy',
-                        [Str::kebab(static::getModelName()) => $this->getRecord()],
+                        'xumina.'.
+                            Str::kebab(Xumina::getCurrentPanel()->getName()).
+                            '.'.
+                            Str::kebab(static::getResourceName()).
+                            '.destroy',
+                        [
+                            Str::kebab(
+                                static::getModelName()
+                            ) => $this->getRecord(),
+                        ]
                     )
                 ),
         ];
