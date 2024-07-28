@@ -9,9 +9,7 @@ use Illuminate\Support\Str;
 
 class PageHeader
 {
-    private function __construct(
-        protected string $id,
-    ) {}
+    private function __construct(protected string $id) {}
 
     public static function make(): static
     {
@@ -24,7 +22,12 @@ class PageHeader
             'id' => $this->id,
             'type' => ComponentType::PageHeader->value,
             'data' => [
-                'actions' => array_map(fn (Action $action) => $action->toArray(), Xumina::getCurrentPanel()->getCurrentPage()->getPageHeaderActions()),
+                'actions' => array_map(
+                    fn (Action $action) => $action->toArray(),
+                    Xumina::getCurrentPanel()
+                        ->getCurrentPage()
+                        ->getPageHeaderActions()
+                ),
             ],
         ];
     }

@@ -7,9 +7,7 @@ class Content
     /**
      * @param  array<string,mixed>  $outline
      */
-    public function __construct(
-        protected array $outline = [],
-    ) {}
+    public function __construct(protected array $outline = []) {}
 
     /**
      * @param  array<int,mixed>  $outline

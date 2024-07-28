@@ -2,7 +2,7 @@
 
 namespace Hasnayeen\Xumina\Pages;
 
-use Hasnayeen\Xumina\Components\Action;
+use Hasnayeen\Xumina\Components\Actions\DeleteAction;
 use Hasnayeen\Xumina\Components\Concerns\CanDeleteResource;
 use Hasnayeen\Xumina\Components\Concerns\HasRecord;
 use Hasnayeen\Xumina\Facades\Xumina;
@@ -81,23 +81,22 @@ class ViewPage extends Page
     public function getPageHeaderActions(): array
     {
         return [
-            Action::make(Str::kebab('Delete '.static::getModelName()))
-                ->label('Delete')
-                ->asButton()
-                ->url(
-                    route(
-                        'xumina.'.
-                            Str::kebab(Xumina::getCurrentPanel()->getName()).
-                            '.'.
-                            Str::kebab(static::getResourceName()).
-                            '.destroy',
-                        [
-                            Str::kebab(
-                                static::getModelName()
-                            ) => $this->getRecord(),
-                        ]
-                    )
-                ),
+            DeleteAction::make(
+                Str::kebab('Delete '.static::getModelName())
+            )->url(
+                route(
+                    'xumina.'.
+                        Str::kebab(Xumina::getCurrentPanel()->getName()).
+                        '.'.
+                        Str::kebab(static::getResourceName()).
+                        '.destroy',
+                    [
+                        Str::kebab(
+                            static::getModelName()
+                        ) => $this->getRecord(),
+                    ]
+                )
+            ),
         ];
     }
 }
