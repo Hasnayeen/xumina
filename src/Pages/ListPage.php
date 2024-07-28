@@ -57,6 +57,7 @@ class ListPage extends Page
         return [
             Action::make(Str::kebab('Create '.static::getModelName()))
                 ->label('Create '.static::getModelName())
+                ->asButton()
                 ->url(
                     route(
                         'xumina.'.

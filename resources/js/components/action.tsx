@@ -122,7 +122,20 @@ const Action: React.FC<ActionProps> = ({ id, data }) => {
 
   const ActionComponent = forwardRef<HTMLDivElement, ActionComponentProps>(
     ({ children }, ref) => {
-      if (isLink) {
+      if (isLink && asButton) {
+        return (
+          <Button
+            asChild
+            size={size ?? "default"}
+            variant={variant ?? "default"}
+            {...props}
+          >
+            <Link {...props} ref={ref}>
+              {children}
+            </Link>
+          </Button>
+        );
+      } else if (isLink) {
         return (
           <Link {...props} ref={ref}>
             {children}
