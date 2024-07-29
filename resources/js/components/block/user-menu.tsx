@@ -51,7 +51,7 @@ export default function UserMenu({
     if (type === "Action") {
       return (
         <DropdownMenuItem key={id}>
-          <Action {...rest} />
+          <Action id={id} type={type} data={data} />
         </DropdownMenuItem>
       );
     }

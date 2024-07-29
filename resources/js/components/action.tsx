@@ -124,7 +124,7 @@ const Action: React.FC<ActionProps> = ({ id, data }) => {
     href: getUrl(),
     className: cn(className, {
       "inline-flex items-center justify-center": asButton && isLink,
-      "w-full": !asButton && isLink,
+      "inline-flex items-center w-full": !asButton && isLink,
     }),
     onClick: handleClick,
   };
