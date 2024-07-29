@@ -1,68 +1,81 @@
-import { PropsWithChildren } from "react"
-import { Button } from "../ui/button"
-import { Checkbox } from "../ui/checkbox"
-import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
-import ActionDropdown, { Action } from "./action-dropdown"
-import DataTable, { PaginatedData } from "./data-table"
+import { PropsWithChildren } from "react";
+import { Button } from "../ui/button";
+import { Checkbox } from "../ui/checkbox";
+import { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown } from "lucide-react";
+import ActionDropdown from "./action-dropdown";
+import { ActionProps as Action } from "../action";
+import DataTable, { PaginatedData } from "./data-table";
 import { useQuery } from "@tanstack/react-query";
-import { get } from 'lodash'
+import { get } from "lodash";
 
 interface TableProps {
-  id: string,
-  columns: [],
-  modelSpec: {},
-  model: string,
-  actions: Action[],
-  globalSort: boolean,
-  globalSearch: boolean,
-  pagination: {},
-  pageSizeOptions?: (number | string)[],
+  id: string;
+  columns: [];
+  modelSpec: {};
+  model: string;
+  actions: Action[];
+  globalSort: boolean;
+  globalSearch: boolean;
+  pagination: {};
+  pageSizeOptions?: (number | string)[];
 }
 
-export default function Table ({ id, columns, model, modelSpec, actions, globalSort = false, globalSearch, pagination, pageSizeOptions }: PropsWithChildren<TableProps>) {
-  type Model = typeof modelSpec
+export default function Table({
+  id,
+  columns,
+  model,
+  modelSpec,
+  actions,
+  globalSort = false,
+  globalSearch,
+  pagination,
+  pageSizeOptions,
+}: PropsWithChildren<TableProps>) {
+  type Model = typeof modelSpec;
 
   const dataQuery = () => {
     return useQuery({
-      queryKey: [model, 'list'],
+      queryKey: [model, "list"],
       initialData: pagination,
       queryFn: () => pagination,
-    })
-  }
+    });
+  };
 
-  const { data, error } = dataQuery()
+  const { data, error } = dataQuery();
 
   const cols = columns.map(({ data }) => {
-    const { name, header, footer, sortable, searchable } = data
+    const { name, header, footer, sortable, searchable } = data;
     return {
       accessorKey: name,
       enableSorting: sortable,
       enableGlobalFilter: searchable,
       header: ({ column }: any) => {
-        if (!header) return null
-        if (globalSort) return header
+        if (!header) return null;
+        if (globalSort) return header;
         if (sortable) {
           return (
             <Button
               className="px-0"
               variant="ghost"
-              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
             >
               {header}
               <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
-          )
+          );
         }
-        return header
+        return header;
       },
       footer: footer ?? null,
       cell: ({ row }: any) => {
         const value = get(row.original, name);
         return <div>{value}</div>;
-      }
-    }
-  })
+      },
+    };
+  });
 
   const tableSpec: ColumnDef<Model>[] = [
     {
@@ -97,13 +110,11 @@ export default function Table ({ id, columns, model, modelSpec, actions, globalS
       size: 20,
       cell: ({ row }) => {
         if (actions.length > 0) {
-          return (
-            <ActionDropdown actions={actions} rowData={row.original} />
-          )
+          return <ActionDropdown actions={actions} rowData={row.original} />;
         }
       },
     },
-  ]
+  ];
 
   return (
     <div className="">
@@ -112,8 +123,8 @@ export default function Table ({ id, columns, model, modelSpec, actions, globalS
         globalSort={globalSort}
         globalSearch={globalSearch}
         pagination={data as PaginatedData}
-        pageSizeOptions={pageSizeOptions ?? [10, 25, 50]} />
+        pageSizeOptions={pageSizeOptions ?? [10, 25, 50]}
+      />
     </div>
-  )
+  );
 }
-

@@ -1,30 +1,37 @@
-import { Link } from "@inertiajs/react"
-import { Button } from "../ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
-import { MoreHorizontal } from "lucide-react"
-
-export interface Action {
-  id: string | number;
-  data: {
-    label: string;
-    icon?: string;
-    url?: string;
-    action?: string;
-    requireConfirmation: boolean;
-  }
-}
+import { Link } from "@inertiajs/react";
+import { Button } from "../ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { MoreHorizontal } from "lucide-react";
+import Action from "../action";
+import { ActionProps as ActionType } from "../action";
 
 interface ActionDropdownProps {
-  actions: Action[];
+  actions: ActionType[];
   rowData: any;
 }
 
-export default function ActionDropdown ({ actions, rowData }: ActionDropdownProps) {
-  const handleAction = (action?: string) => {
-    if (action) {
-      const fn = new Function('id', action);
-      fn(rowData.id);
+export default function ActionDropdown({
+  actions,
+  rowData,
+}: ActionDropdownProps) {
+  const replaceRouteParams = (params: Record<string, any>) => {
+    const newParams: Record<string, any> = {};
+    for (const [key, value] of Object.entries(params)) {
+      if (typeof value === "string" && value.startsWith(":")) {
+        const rowDataKey = value.slice(1); // Remove the ':' prefix
+        newParams[key] = rowData[rowDataKey] ?? value; // Use rowData value if it exists, otherwise keep the original
+      } else {
+        newParams[key] = value;
+      }
     }
+    return newParams;
   };
 
   return (
@@ -36,55 +43,21 @@ export default function ActionDropdown ({ actions, rowData }: ActionDropdownProp
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem>
-          {actions.map(({ id, data }) => {
-            if (data.requireConfirmation) {
-              return (
-                <DropdownMenuItem key={id} onSelect={() => handleAction(data.action)}>
-                  {data.icon && (
-                    <span
-                      dangerouslySetInnerHTML={{ __html: data.icon }}
-                      aria-hidden="true"
-                      className="mr-2 h-4 w-4"
-                    />
-                  )}
-                  {data.label}
-                </DropdownMenuItem>
-              );
-            }
-            if (data.url) {
-              const url = data.url.replace(':id', rowData.id);
-              return (
-                <DropdownMenuItem key={data.label} asChild>
-                  <Link href={url} className="flex items-center">
-                    {data.icon && (
-                      <span
-                        dangerouslySetInnerHTML={{ __html: data.icon }}
-                        aria-hidden="true"
-                        className="mr-2 h-4 w-4"
-                      />
-                    )}
-                    {data.label}
-                  </Link>
-                </DropdownMenuItem>
-              );
-            } else {
-              return (
-                <DropdownMenuItem key={data.label} onSelect={() => handleAction(data.action)}>
-                  {data.icon && (
-                    <span
-                      dangerouslySetInnerHTML={{ __html: data.icon }}
-                      aria-hidden="true"
-                      className="mr-2 h-4 w-4"
-                    />
-                  )}
-                  {data.label}
-                </DropdownMenuItem>
-              );
-            }
-          })}
-        </DropdownMenuItem>
+        {actions.map(({ id, data }: ActionType) => (
+          <DropdownMenuItem key={id}>
+            <Action
+              id={id}
+              type="Action"
+              data={{
+                ...data,
+                routeParams: data.routeParams
+                  ? replaceRouteParams(data.routeParams)
+                  : undefined,
+              }}
+            />
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

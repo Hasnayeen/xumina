@@ -1,5 +1,4 @@
 import { forwardRef } from "react";
-import { Button } from "./ui/button";
 import { Link } from "@inertiajs/react";
 import {
   AlertDialog,
@@ -12,6 +11,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
+import { Button } from "./ui/button";
 import {
   Dialog,
   DialogContent,
@@ -34,11 +34,13 @@ type Variant =
   | "link";
 type SizeVariant = "default" | "sm" | "lg" | "icon";
 
-interface ActionProps {
+export interface ActionProps {
   id: string | number;
   type: "Action";
   data: {
     url?: string;
+    routeName?: string;
+    routeParams?: Record<string, any>;
     label: string;
     variant?: Variant;
     asButton?: boolean;
@@ -74,6 +76,8 @@ interface ActionProps {
 const Action: React.FC<ActionProps> = ({ id, data }) => {
   const {
     url,
+    routeName,
+    routeParams,
     label,
     variant = "default",
     asButton,
@@ -90,7 +94,15 @@ const Action: React.FC<ActionProps> = ({ id, data }) => {
     iconPosition,
   } = data;
 
-  const isLink = !!url;
+  const isLink = !!url || routeName;
+
+  const getUrl = () => {
+    if (url) return url;
+    if (routeName) {
+      return route(routeName, routeParams);
+    }
+    return "#";
+  };
 
   const handleClick = (e: React.MouseEvent) => {
     if (actionType === "emitEvent" && action) {
@@ -109,9 +121,10 @@ const Action: React.FC<ActionProps> = ({ id, data }) => {
   };
 
   const props = {
-    href: url || "#",
+    href: getUrl(),
     className: cn(className, {
       "inline-flex items-center justify-center": asButton && isLink,
+      "w-full": !asButton && isLink,
     }),
     onClick: handleClick,
   };
@@ -156,7 +169,7 @@ const Action: React.FC<ActionProps> = ({ id, data }) => {
   );
 
   const actionElement = (
-    <ActionComponent>
+    <ActionComponent {...props}>
       {icon && iconPosition === "left" && (
         <span
           dangerouslySetInnerHTML={{ __html: icon }}

@@ -25,7 +25,8 @@
         "mallardduck/blade-lucide-icons": "^1.22",
         "spatie/laravel-model-info": "^2.0",
         "spatie/laravel-package-tools": "^1.16",
-        "spatie/php-structure-discoverer": "^2.1"
+        "spatie/php-structure-discoverer": "^2.1",
+        "tightenco/ziggy": "^2.3"
     },
     "require-dev": {
         "laravel/pint": "^1.14",

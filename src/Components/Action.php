@@ -13,10 +13,12 @@ class Action
         protected ?string $label = null,
         protected ?string $icon = null,
         protected string $iconPosition = 'left',
-        protected bool $asButton = true,
+        protected bool $asButton = false,
         protected ?string $variant = null,
         protected ?string $size = null,
         protected ?string $url = null,
+        protected ?string $routeName = null,
+        protected ?array $routeParams = null,
         protected ?string $action = null,
         protected ?array $actionData = null,
         protected ?string $actionType = null,
@@ -88,6 +90,15 @@ class Action
     public function url(string $url): static
     {
         $this->url = $url;
+        $this->actionType = 'url';
+
+        return $this;
+    }
+
+    public function route(string $name, array $params = []): static
+    {
+        $this->routeName = $name;
+        $this->routeParams = $params;
         $this->actionType = 'url';
 
         return $this;
@@ -235,6 +246,8 @@ class Action
                 'icon' => $this->icon ? Icon::get($this->icon) : null,
                 'iconPosition' => $this->iconPosition,
                 'url' => $this->url,
+                'routeName' => $this->routeName,
+                'routeParams' => $this->routeParams,
                 'asButton' => $this->asButton ?? (bool) $this->url,
                 'variant' => $this->variant,
                 'size' => $this->size,
