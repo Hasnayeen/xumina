@@ -37,6 +37,15 @@ class ListPage extends Page
         ];
     }
 
+    public static function getNavigationRouteName(): string
+    {
+        return 'xumina.'.
+            Str::kebab(Xumina::getCurrentPanel()->getName()).
+            '.'.
+            Str::kebab(static::getResourceName()).
+            '.index';
+    }
+
     public static function getNavigationOrder(): int
     {
         return 0;
