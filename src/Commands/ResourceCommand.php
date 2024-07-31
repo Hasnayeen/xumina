@@ -2,6 +2,7 @@
 
 namespace Hasnayeen\Xumina\Commands;
 
+use Hasnayeen\Xumina\Commands\Concerns\CanGenerateFormFields;
 use Hasnayeen\Xumina\Commands\Concerns\InteractWithFileSystem;
 use Hasnayeen\Xumina\Facades\Xumina;
 use Hasnayeen\Xumina\Panel;
@@ -19,6 +20,7 @@ use function Laravel\Prompts\select;
 #[AsCommand(name: 'xumina:resource')]
 class ResourceCommand extends Command implements PromptsForMissingInput
 {
+    use CanGenerateFormFields;
     use InteractsWithIO;
     use InteractWithFileSystem;
 
@@ -70,8 +72,12 @@ class ResourceCommand extends Command implements PromptsForMissingInput
                 return 1;
             }
         }
+        $generate = confirm(
+            label: 'Generate form and table for this resource?',
+            default: true
+        );
         $this->createResource($panel, $fqcn, $model, $name);
-        $this->createResourcePages($panel, $fqcn, $model, $name);
+        $this->createResourcePages($panel, $fqcn, $model, $name, $generate);
         $this->createControllers($panel, $fqcn, $model, $name);
         $this->createReactPages($panel, $name);
         $this->components->info(
@@ -111,7 +117,8 @@ class ResourceCommand extends Command implements PromptsForMissingInput
         string $panel,
         string $fqcn,
         string $model,
-        string $name
+        string $name,
+        bool $generate
     ): void {
         $this->ensureDirectoryExists(
             app_path('Xumina/'.Str::studly($panel).'/Pages/'.$name)
@@ -121,12 +128,15 @@ class ResourceCommand extends Command implements PromptsForMissingInput
             Str::studly($panel).
             '\\Resources\\'.
             Str::studly($name);
+        $formFields = $this->generateFormFields($fqcn);
         $createPageCallback = function ($template) use (
             $panel,
             $name,
             $model,
             $fqcn,
-            $resourceFqcn
+            $resourceFqcn,
+            $formFields,
+            $generate
         ) {
             File::copy(
                 __DIR__.
@@ -163,6 +173,13 @@ class ResourceCommand extends Command implements PromptsForMissingInput
                 Str::kebab($model),
                 $filePath
             );
+            if ($generate && ($template === 'Create' || $template === 'Edit')) {
+                $this->replaceInFile(
+                    'fields([])',
+                    "fields([\n            {$formFields}\n        ])",
+                    $filePath
+                );
+            }
             $this->components->info(
                 sprintf('%s [%s] created successfully.', 'Page', $filePath)
             );
